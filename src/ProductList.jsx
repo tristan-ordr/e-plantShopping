@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch } from "react-redux";
+import React, {useState, useEffect} from 'react';
+import {useDispatch, useSelector} from "react-redux";
 import './ProductList.css'
 import CartItem from './CartItem';
 import {addItem} from "./CartSlice.jsx";
@@ -7,9 +7,11 @@ import {addItem} from "./CartSlice.jsx";
 
 function ProductList({ onHomeClick }) {
     const [showCart, setShowCart] = useState(false);
-    const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
-    const [addedToCart, setAddedToCart] = useState({}); // TODO - This doesn't update when cart edits items!
-    const [numberOfItems, setNumberOfItems] = useState(0); // TODO - This doesn't update when cart edits items!
+    const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the landing page
+    const [addedToCart, setAddedToCart] = useState({});
+
+    const cartItems = useSelector( state => state.cart.items);
+    const numberOfItems = cartItems.reduce((total, item) => total + item.quantity, 0);
 
     const dispatch = useDispatch();
 
@@ -263,6 +265,7 @@ function ProductList({ onHomeClick }) {
 
     const handleAddToCart = (product) => {
         if (isAdded(product)) { return; }
+
         // Dispatch this information to the addItem inside the function component CartSlice:
         dispatch(addItem(product));
 
@@ -272,10 +275,20 @@ function ProductList({ onHomeClick }) {
             [product.name] : true
         }));
 
-        // Update number of items:
-        setNumberOfItems((prevState) => prevState + 1)
     }
 
+    // Re-calculate which items are added to the cart after cartItems has been changed:
+    useEffect( () => {
+        const itemNames = cartItems.map((item) => item.name);
+        const result = {}
+        Object.entries(addedToCart).forEach(([key, value]) => {
+            result[key] = itemNames.includes(key);
+        });
+
+        setAddedToCart(result);
+    }, [cartItems]);
+
+    // Helper function to check if a given item is in the cart:
     const isAdded = (product) => {
         return addedToCart[product.name]
     }
