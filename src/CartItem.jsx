@@ -1,6 +1,5 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { removeItem, updateQuantity } from './CartSlice';
+import {useDispatch, useSelector} from 'react-redux';
 import './CartItem.css';
 
 const CartItem = ({ onContinueShopping }) => {
@@ -9,7 +8,11 @@ const CartItem = ({ onContinueShopping }) => {
 
   // Calculate total amount for all products in the cart
   const calculateTotalAmount = () => {
- 
+      const initialValue = 0;
+      return cart.reduce(
+          (total, item) => total + (item.quantity * Number(item.cost.replace(/[^0-9.-]+/g, ""))),
+          initialValue
+      );
   };
 
   const handleContinueShopping = (e) => {
