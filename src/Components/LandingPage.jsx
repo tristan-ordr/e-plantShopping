@@ -1,7 +1,9 @@
 import React from "react";
 import AboutUs from "./AboutUs.jsx";
+import {Link} from "react-router";
 
-export default function({handleGetStartedClick}) {
+
+export default function() {
     return (
         <>
             <div className="background-image"></div>
@@ -11,9 +13,12 @@ export default function({handleGetStartedClick}) {
                     <div className="divider"></div>
                     <p>Where Green Meets Serenity</p>
 
-                    <button className="get-started-button" onClick={handleGetStartedClick}>
+                    <Link
+                        className="get-started-button"
+                        to="shopping"
+                    >
                         Get Started
-                    </button>
+                    </Link>
                 </div>
                 <AboutUs/>
             </div>

@@ -2,6 +2,7 @@ import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import './CartItem.css';
 import {removeItem, updateQuantity} from "../CartSlice.jsx";
+import {Link} from "react-router";
 
 const CartItem = ({ onContinueShopping }) => {
   const cart = useSelector(state => state.cart.items);
@@ -77,7 +78,7 @@ const CartItem = ({ onContinueShopping }) => {
       </div>
       <div style={{ marginTop: '20px', color: 'black' }} className='total_cart_amount'></div>
       <div className="continue_shopping_btn">
-        <button className="get-started-button" onClick={(e) => handleContinueShopping(e)}>Continue Shopping</button>
+        <Link className="get-started-button" to="/e-plantShopping/shopping">Continue Shopping</Link>
         <br />
         <button className="get-started-button1" onClick={(e) => handleCheckout(e)}>Checkout</button>
       </div>
