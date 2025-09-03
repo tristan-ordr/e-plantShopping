@@ -1,8 +1,8 @@
 
 import React, { useState } from 'react';
-import ProductList from './ProductList.jsx';
+import ProductList from './shopping/ProductList.jsx';
 import './App.css';
-import LandingPage from "./LandingPage.jsx";
+import LandingPage from "./welcome/LandingPage.jsx";
 
 function App() {
   
