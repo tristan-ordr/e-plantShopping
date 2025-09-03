@@ -17,10 +17,6 @@ const CartItem = ({ onContinueShopping }) => {
       );
   };
 
-  const handleContinueShopping = (e) => {
-      onContinueShopping(e);
-  };
-
   const handleCheckout = (e) => {
       alert("Checkout has not yet been implemented");
   }
