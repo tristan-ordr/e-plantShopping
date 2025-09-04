@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
-import {Link} from "react-router";
+import {Link, useNavigate} from "react-router";
 import axios from "axios";
 
 
 export default function Login() {
+    const navigate = useNavigate();
 
     const [user, setUser] = useState({
         username: "",
@@ -25,10 +26,14 @@ export default function Login() {
         })
         .then(res => {
             if (res.status === 200) {
+                console.log("login success! redirecting...")
                 // login
                 // 1. save our auth token and our refresh token
 
                 // 2. redirect to the logged in page.
+                // TODO - replace this with actions and the `redirect` API. useNavigate is *not* recommended!
+
+                navigate("/e-plantShopping/admin/home");
 
 
             } else {
