@@ -22,12 +22,22 @@ export default function() {
     return (
         <div className="relative w-screen h-screen">
             <div className="bg-[url('https://cdn.pixabay.com/photo/2017/07/13/08/59/greenhouse-2499758_1280.jpg')] absolute top-[0] left-[0] w-[100%] h-[100%] brightness-80 bg-cover"></div>
-            <div className="content flex z-1 h-screen w-screen items-center backdrop-blur-xs bg-[rgba(0,0,0,0.5)] justify-between">
-                <div className="basis-1/3 text-center items-center ml-2 flex flex-col max-w-[350px]">
-                    <LandingContent />
+            <div className="flex flex-col z-1 h-screen w-screen backdrop-blur-xs bg-[rgba(0,0,0,0.5)]">
+                <div className="bg-[#4caf50] w-[100%] flex flex-row-reverse">
+                    <Link
+                        className="text-white mr-6 my-2"
+                        to="/e-plantShopping/admin"
+                    >
+                        Login
+                    </Link>
                 </div>
-                <div className="basis-2/3">
-                    <AboutUs/>
+                <div className="flex z-1 items-center justify-between h-[100%]">
+                    <div className="basis-1/3 text-center items-center ml-2 flex flex-col max-w-[350px]">
+                        <LandingContent />
+                    </div>
+                    <div className="basis-2/3">
+                        <AboutUs/>
+                    </div>
                 </div>
             </div>
         </div>

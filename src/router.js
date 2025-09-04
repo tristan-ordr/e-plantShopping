@@ -9,6 +9,8 @@ import Login from "./Components/admin/Login.jsx";
 import Transactions from "./Components/admin/Transactions.jsx";
 import Inventory from "./Components/admin/Inventory.jsx";
 import axios from "axios";
+import Dashboard from "./Components/admin/Dashboard.jsx";
+import Preferences from "./Components/admin/Preferences.jsx";
 
 const shoppingRouter = createBrowserRouter([
     {
@@ -41,41 +43,11 @@ const shoppingRouter = createBrowserRouter([
             },
             {
                 path: 'admin',
+                Component: Admin,
                 children: [
-                    {
-                        index: true,
-                        Component: Login,
-                    },
-                    {
-                        path: 'login',
-                        Component: Login,
-                        action: async ({request}) => {
-                            let formData = await request.formData();
-
-                            let formObj = Object.fromEntries(formData);
-
-                            try {
-                                const response = await axios.post('http://localhost:4000/login', {
-                                    username: formObj.username,
-                                    password: formObj.password
-                                })
-                                if (response.status === 200) {
-                                    return redirect(`/e-plantShopping/admin/home`);
-                                } else {
-                                    console.log(response);
-                                    return redirect(`/e-plantShopping/admin/`);
-                                }
-                            } catch (err) {
-                                console.log(err);
-                                return redirect(`/e-plantShopping/admin/`);
-                            }
-
-                        }
-                    },
-
-                    { path: 'home', Component: Admin },
                     { path: 'inventory', Component: Inventory},
                     { path: 'transactions', Component: Transactions},
+
                 ]
             }
         ]
