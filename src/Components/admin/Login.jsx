@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
 import {Link} from "react-router";
+import axios from "axios";
 
 
 export default function Login() {
 
     const [user, setUser] = useState({
-        name: "",
+        username: "",
         password: ""
     })
 
@@ -15,6 +16,28 @@ export default function Login() {
             ...prevState,
             [name]: value
         }));
+    }
+
+    const handleSubmit = () => {
+        axios.post('http://localhost:4000/login', {
+            username: user.username,
+            password: user.password
+        })
+        .then(res => {
+            if (res.status === 200) {
+                // login
+                // 1. save our auth token and our refresh token
+
+                // 2. redirect to the logged in page.
+
+
+            } else {
+                console.log(res);
+            }
+        })
+        .catch(err =>
+            console.log(err)
+        )
     }
 
     return (
@@ -36,7 +59,7 @@ export default function Login() {
                                 type="text"
                                 placeholder="Username"
                                 name="username"
-                                value={user.name}
+                                value={user.username}
                                 onChange={handleChange}
                             />
                         </div>
@@ -59,11 +82,16 @@ export default function Login() {
                         </div>
                     </form>
                 </section>
-                <Link
-                    to="/e-plantShopping/admin/home"
+                {/*<Link*/}
+                {/*    to="/e-plantShopping/admin/home"*/}
+                {/*    className="mt-10 px-[25px] py-[15px] rounded-md bg-[#4caf50] text-white cursor-pointer text-2xl hover:bg-[#45a049]">*/}
+                {/*    Login*/}
+                {/*</Link>*/}
+                <button
+                    onClick={() => handleSubmit()}
                     className="mt-10 px-[25px] py-[15px] rounded-md bg-[#4caf50] text-white cursor-pointer text-2xl hover:bg-[#45a049]">
                     Login
-                </Link>
+                </button>
             </div>
         </main>
     )
