@@ -43,7 +43,7 @@ export default function PlantList() {
                 { plantsArray.map((category, index) => (
                     <>
                         { category.plants.map((plant, plantIndex) => (
-                            <tr className="border">
+                            <tr key={plantIndex} className="border">
                                 <td className="border px-2">{category.category}</td>
                                 <td className="border px-2">{plant.name}</td>
                                 <td className="border px-2">{plant.cost}</td>

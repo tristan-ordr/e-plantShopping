@@ -21,16 +21,12 @@ export default function Login() {
     }
 
     const handleSubmit = () => {
-        console.log("submitting login request...");
 
         axios.post('http://localhost:4000/login', {
             username: user.username,
             password: user.password
         }).then ( res => {
-            console.log("received response");
-            console.log(res);
             if (res.status === 200) {
-                console.log("")
                 setAuthorization({
                     'token': res.data['accessToken'],
                     'refresh': res.data['refreshToken']
