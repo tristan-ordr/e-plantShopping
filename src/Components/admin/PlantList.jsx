@@ -10,7 +10,17 @@ export default function PlantList() {
     useEffect( () => {
         axios
             .get("http://localhost:3000/plants")
-            .then(res => setPlantsArray(res.data))
+            .then(res => {
+                const data = res.data.flatMap( (category) => {
+                    return category.plants.map (plant => {
+                        return {
+                            category: category.category,
+                            ...plant
+                        }
+                    })
+                });
+                setPlantsArray(data);
+            })
             .catch(err => console.log(err))
     }, [])
 
@@ -40,20 +50,16 @@ export default function PlantList() {
                 </tr>
                 </thead>
                 <tbody>
-                { plantsArray.map((category, index) => (
-                    <>
-                        { category.plants.map((plant, plantIndex) => (
-                            <tr key={plantIndex} className="border">
-                                <td className="border px-2">{category.category}</td>
-                                <td className="border px-2">{plant.name}</td>
-                                <td className="border px-2">{plant.cost}</td>
-                                <td>
-                                    <button className="mx-6 px-3 rounded-lg cursor-pointer hover:bg-[#4caf50]">Edit</button>
-                                    <button className="mx-6 px-3 rounded-lg cursor-pointer hover:bg-[#4caf50]">Delete</button>
-                                </td>
-                            </tr>
-                        ))}
-                    </>
+                { plantsArray.map((plant, index) => (
+                    <tr key={index} className="border">
+                        <td className="border px-2">{plant.category}</td>
+                        <td className="border px-2">{plant.name}</td>
+                        <td className="border px-2">{plant.cost}</td>
+                        <td>
+                            <button className="mx-6 px-3 rounded-lg cursor-pointer hover:bg-[#4caf50]">Edit</button>
+                            <button className="mx-6 px-3 rounded-lg cursor-pointer hover:bg-[#4caf50]">Delete</button>
+                        </td>
+                    </tr>
                 ))}
                 </tbody>
             </table>
