@@ -11,6 +11,9 @@ import Inventory from "./Components/admin/Inventory.jsx";
 import axios from "axios";
 import Dashboard from "./Components/admin/Dashboard.jsx";
 import Preferences from "./Components/admin/Preferences.jsx";
+import Plant from "./Components/admin/Plant.jsx";
+import Category from "./Components/admin/Category.jsx";
+import PlantList from "./Components/admin/PlantList.jsx";
 
 const shoppingRouter = createBrowserRouter([
     {
@@ -45,9 +48,16 @@ const shoppingRouter = createBrowserRouter([
                 path: 'admin',
                 Component: Admin,
                 children: [
-                    { path: 'inventory', Component: Inventory},
+                    {
+                        path: 'inventory',
+                        Component: Inventory,
+                        children: [
+                            { index: true, Component: PlantList },
+                            { path: 'new_plant', Component: Plant},
+                            { path: 'new_category', Component: Category},
+                        ]
+                    },
                     { path: 'transactions', Component: Transactions},
-
                 ]
             }
         ]
