@@ -35,13 +35,19 @@ export default function Dashboard() {
                                         Transaction Management
                                     </NavLink>
                                     <NavLink
+                                        to="locations"
+                                        className="text-white mx-10"
+                                    >
+                                        Apollo Client Tutorial
+                                    </NavLink>
+                                    <NavLink
                                         to="/e-plantShopping/admin"
                                         className="text-white mx-4 ml-auto mr-10"
                                     >
                                         Logout
                                     </NavLink>
                                 </div>
-                                <div className="flex flex-row">
+                                <div className="flex flex-row h-full">
                                     <Outlet />
                                 </div>
                             </div>

@@ -14,6 +14,7 @@ import Preferences from "./Components/admin/Preferences.jsx";
 import Plant from "./Components/admin/Plant.jsx";
 import Category from "./Components/admin/Category.jsx";
 import PlantList from "./Components/admin/PlantList.jsx";
+import Locations from "./Components/admin/Locations.jsx";
 
 const shoppingRouter = createBrowserRouter([
     {
@@ -58,6 +59,7 @@ const shoppingRouter = createBrowserRouter([
                         ]
                     },
                     { path: 'transactions', Component: Transactions},
+                    { path: 'locations', Component: Locations },
                 ]
             }
         ]

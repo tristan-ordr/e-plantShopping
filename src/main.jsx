@@ -11,28 +11,10 @@ const client = new ApolloClient({
     cache: new InMemoryCache(),
 });
 
-const executeQuery = (client) => {
-    client.query({
-        query: gql`
-            query GetLocations {
-                locations {
-                    id
-                    name
-                    description
-                    photo
-                }
-            }
-        `,
-    }).then(queryResult => {
-        console.log(queryResult)
-    });
-}
-
-executeQuery(client);
-
-
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
-        <RouterProvider router={shoppingRouter}/>
+        <ApolloProvider client={client}>
+            <RouterProvider router={shoppingRouter}/>
+        </ApolloProvider>
     </React.StrictMode>,
 )
