@@ -2,11 +2,27 @@ import React, {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import './ProductList.css'
 import {addItem} from "../../CartSlice.jsx";
-import axios from "axios";
+import {gql} from "@apollo/client";
+import {useQuery} from "@apollo/client/react";
 
 
 function ProductList() {
-    const [plantsArray, setPlantsArray] = useState([]);
+    const GET_PLANTS = gql`
+        query GetPlants {
+            categories {
+                plants {
+                    id
+                    name
+                    cost
+                    description
+                    image
+                }
+            }
+        }
+    `;
+
+    const { loading, error, data } = useQuery(GET_PLANTS);
+
     const [addedToCart, setAddedToCart] = useState({});
 
     const cartItems = useSelector( state => state.cart.items);
@@ -28,17 +44,6 @@ function ProductList() {
 
     }
 
-    // useEffect to make an API call:
-    useEffect( () => {
-        axios
-            .get("http://localhost:3000/plants")
-            .then(res => {
-                setPlantsArray(res.data);
-            })
-            .catch(err => {console.error(err);})
-
-    }, [])
-
     // Re-calculate which items are added to the cart after cartItems has been changed:
     useEffect( () => {
         const itemNames = cartItems.map((item) => item.name);
@@ -55,9 +60,12 @@ function ProductList() {
         return addedToCart[product.name]
     }
 
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error : {error.message}</p>;
+
     return (
         <div className="product-grid">
-            { plantsArray.map((category, index) => (
+            { data.categories && data.categories.map((category, index) => (
                 <div key={index}>
                     <h1>
                         <div className="plantname_heading">{category.category}</div>
