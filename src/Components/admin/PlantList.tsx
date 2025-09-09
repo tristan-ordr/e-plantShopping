@@ -7,8 +7,36 @@ import CachedIcon from '@mui/icons-material/Cached';
 import NewLabelOutlinedIcon from '@mui/icons-material/NewLabelOutlined';
 import NewCategoryDialog from "./NewCategoryDialog.js";
 import {GetPlantsQuery} from "../../types/generated/schema";
+import EditPlantDialog from "./EditPlantDialog";
 
 export default function PlantList() {
+    // State
+    const [showNewCategory, setShowNewCategory] = React.useState(false);
+    const [showNewPlant, setShowNewPlant] = React.useState(false);
+
+    // TODO - Combine showEditPlant and editPlantId to 1 object:
+    const [showEditPlant, setShowEditPlant] = React.useState(false);
+    const [editPlantId, setEditPlantId] = React.useState(null);
+
+
+
+    // Derived values
+
+    // Settings
+    const hideBackButton = true
+
+    // Event handlers
+    const handleNewPlant = () => {
+        console.log('new plant clicked');
+        setShowNewPlant(true);
+    }
+
+    const handleTableRowClicked = (plantId: string) => {
+        setShowEditPlant(true);
+        setEditPlantId(plantId)
+    }
+
+    // GraphQL Query
     const GET_PLANTS: TypedDocumentNode<GetPlantsQuery> = gql`
         query GetPlants {
             plants {
@@ -28,28 +56,17 @@ export default function PlantList() {
         }
         `;
 
-    const [open, setOpen] = React.useState(false);
-    const [selectedValue, setSelectedValue] = React.useState([]);
+
+    // Use Query
 
     const { loading, error, data, refetch } = useQuery(GET_PLANTS);
 
 
+    // Rendering
     if (loading) return <p>Loading...</p>;
+
     if (error) return <p>Error : {error.message}</p>;
 
-    const hideBackButton = true
-
-
-
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
-
-    // @ts-ignore
     return (
         <div className="flex-1">
             <div className="flex flex-col space-y-1">
@@ -71,7 +88,7 @@ export default function PlantList() {
                                 <CachedIcon/>
                             </button>
                             <button
-                                onClick={()=> handleClickOpen()}
+                                onClick={()=> setShowNewCategory(true)}
                                 className="group/button flex items-center justify-center border transform transition-transform duration-50 active:scale-95 focus:outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-50 bg-transparent border-transparent dark:text-pink-700 hover:bg-pink-100 hover:border-pink-100 disabled:bg-transparent disabled:border-transparent focus-visible:ring-pink-600 focus-visible:bg-pink-100 h-[34px] py-1.5 px-3 rounded-md text-sm leading-5 space-x-2 text-pink-500"
                                 title="Add category">
                                 <NewLabelOutlinedIcon className="mb-[2px] mr-[2px]"/>
@@ -95,8 +112,12 @@ export default function PlantList() {
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {data.plants.map((plant, index) => (
-                                    <tr key={index} className="hover:bg-gray-200 whitespace-nowrap">
+                                {data.plants.map((plant) => (
+                                    <tr
+                                        key={plant.id}
+                                        className="hover:bg-gray-200 whitespace-nowrap"
+                                        onClick={() => {handleTableRowClicked(plant.id)}}
+                                    >
                                         <td className="p-2 pl-4">{plant.id}</td>
                                         <td className="p-2">{plant.name}</td>
                                         <td className="p-2">{plant.image}</td>
@@ -105,21 +126,55 @@ export default function PlantList() {
                                         <td className="p-2 pr-4">{plant.category.name}</td>
                                     </tr>
                                 ))}
+                                { showNewPlant &&
+                                    <tr
+                                        key="new-plant"
+                                    >
+                                        <td></td>
+                                        <td className="p-2">input name</td>
+                                        <td className="p-2">input image</td>
+                                        <td className="p-2">input cost</td>
+                                        <td className="p-2">input description</td>
+                                        <td className="p-2 pr-4">input category</td>
+                                    </tr>
+                                }
                                 </tbody>
                             </table>
                         </div>
                         <div className="space-x-3 flex justify-end pt-2">
-                            <button
-                                className="group/button flex items-center justify-center border transform transition-transform duration-50 active:scale-95 focus:outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-50 bg-transparent border-pink-200 text-pink-500 dark:text-pink-700 hover:bg-pink-100 hover:border-pink-200 disabled:bg-transparent disabled:border-pink-200 disabled:text-pink-700 focus-visible:ring-pink-600 focus-visible:bg-pink-100 h-[34px] py-1.5 px-3 rounded-md text-sm leading-5 space-x-2 add-row mb-3">
-                                <span className="inline-block">Add plant</span></button>
+                            { !showNewPlant &&
+                                <button
+                                    onClick={() => {handleNewPlant()}}
+                                    className="group/button flex items-center justify-center border transform transition-transform duration-50 active:scale-95 focus:outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-50 bg-transparent border-pink-200 text-pink-500 dark:text-pink-700 hover:bg-pink-100 hover:border-pink-200 disabled:bg-transparent disabled:border-pink-200 disabled:text-pink-700 focus-visible:ring-pink-600 focus-visible:bg-pink-100 h-[34px] py-1.5 px-3 rounded-md text-sm leading-5 space-x-2 add-row mb-3">
+                                    <span className="inline-block">Add plant</span>
+                                </button>
+                            }
+                            {showNewPlant &&
+                                <>
+                                    <button
+                                        className="group/button flex items-center justify-center border transform transition-transform duration-50 active:scale-95 focus:outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-50 bg-gray-100 border-gray-200 text-foreground hover:bg-gray-200 hover:border-gray-300 disabled:bg-gray-100 disabled:border-gray-200 focus-visible:ring-gray-600 h-[42px] py-2 px-3 rounded-md text-base leading-6 space-x-3 cancel-insert-row">
+                                        <span className="inline-block">Cancel</span>
+                                    </button>
+                                    <button
+                                        className="group/button flex items-center justify-center border transform transition-transform duration-50 active:scale-95 focus:outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-50 bg-pink-500 border-pink-500 text-white hover:bg-pink-600 hover:border-pink-600 disabled:bg-pink-500 disabled:border-pink-500 focus-visible:ring-pink-600 h-[42px] py-2 px-3 rounded-md text-base leading-6 space-x-3 insert-row">
+                                        <span className="inline-block">Insert</span>
+                                    </button>
+                                </>
+                            }
                         </div>
                     </div>
                 </div>
             </div>
             <NewCategoryDialog
-                open={open}
-                onClose={handleClose}
+                show={showNewCategory}
+                setShow={setShowNewCategory}
             />
+            {editPlantId && <EditPlantDialog
+                show={showEditPlant}
+                setShow={setShowEditPlant}
+                plantId={editPlantId}
+                setPlantId={setEditPlantId}
+            />}
         </div>
     )
 }
