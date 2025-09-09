@@ -49,6 +49,13 @@ export type QueryPlantArgs = {
   id: Scalars['ID']['input'];
 };
 
+export type GetPlantQueryVariables = Exact<{
+  plantId: Scalars['ID']['input'];
+}>;
+
+
+export type GetPlantQuery = { plant: { __typename: 'Plant', name: string, cost: string | null, description: string | null, image: string | null, category: { __typename: 'Category', id: string, name: string } } | null, categories: Array<{ __typename: 'Category', id: string, name: string }> | null };
+
 export type GetPlantsQueryVariables = Exact<{ [key: string]: never; }>;
 
 

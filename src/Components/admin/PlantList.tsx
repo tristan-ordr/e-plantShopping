@@ -11,6 +11,9 @@ import EditPlantDialog from "./EditPlantDialog";
 import {useEffect, useRef} from "react";
 
 export default function PlantList() {
+    // TODO - there are way too many different state objects...
+
+
     // State
     const [showNewCategory, setShowNewCategory] = React.useState(false);
 
@@ -79,9 +82,7 @@ export default function PlantList() {
 
 
     // Use Query
-
     const { loading, error, data, refetch } = useQuery(GET_PLANTS);
-
 
     // Rendering
     if (loading) return <p>Loading...</p>;
