@@ -4,10 +4,11 @@ import {gql} from "@apollo/client";
 import {useQuery} from "@apollo/client/react";
 
 
-export default function PlantList({categories}) {
+export default function PlantList() {
     const GET_PLANTS = gql`
         query GetPlants {
             plants {
+                id
                 name
                 cost
                 description
@@ -16,10 +17,14 @@ export default function PlantList({categories}) {
                     name
                 }
             }
+            categories {
+                id
+                name
+            }
         }
         `;
 
-    const { loading, error, data, data2 } = useQuery(GET_PLANTS);
+    const { loading, error, data } = useQuery(GET_PLANTS);
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error : {error.message}</p>;
