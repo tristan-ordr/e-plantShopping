@@ -1,8 +1,8 @@
 import * as React from "react";
 
 import Dialog from "@mui/material/Dialog";
-import FormDialogInput from "../FormDialogInput";
 import { useState } from "react";
+import FormDialogTextInput from "../forms/FormDialogTextInput";
 
 export default function NewCategoryDialog({ show, setShow }) {
     const [name, setName] = useState("")
@@ -29,7 +29,7 @@ export default function NewCategoryDialog({ show, setShow }) {
                 <div className="flex flex-col space-y-6">
                     <h1 className="text-xl font-semibold">Insert category</h1>
                     <form name="Insert category" className="space-y-5 mt-6">
-                        <FormDialogInput
+                        <FormDialogTextInput
                             formLabel="Name"
                             inputId="category-name"
                             inputName="name"

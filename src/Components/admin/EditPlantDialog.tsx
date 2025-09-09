@@ -3,8 +3,9 @@ import * as React from "react";
 import {Drawer} from "@mui/material";
 import {gql, TypedDocumentNode} from "@apollo/client";
 import {useQuery} from "@apollo/client/react";
-import FormDialogInput from "../FormDialogInput";
 import {GetPlantQuery} from "../../types/generated/schema";
+import FormDialogTextInput from "../forms/FormDialogTextInput";
+import FormDialogSelect from "../forms/FormDialogSelect";
 
 export default function EditPlantDialog({show, setShow, plantId, setPlantId }) {
     const GET_PLANT: TypedDocumentNode<GetPlantQuery> = gql`
@@ -28,6 +29,10 @@ export default function EditPlantDialog({show, setShow, plantId, setPlantId }) {
     const { loading, error, data } = useQuery(GET_PLANT, {
         variables: { plantId }
     });
+
+    const handleSelectChange = () => {
+
+    }
 
     const handleChange = () => {
 
@@ -66,40 +71,40 @@ export default function EditPlantDialog({show, setShow, plantId, setPlantId }) {
                     }
                     {
                         data && <form name="Insert category" className="space-y-5 mt-6">
-                            <FormDialogInput
+                            <FormDialogTextInput
                                 formLabel="name"
                                 inputId="name"
                                 inputName="name"
                                 inputValue={data.plant.name}
                                 setValue={handleChange}
                             />
-                            <FormDialogInput
+                            <FormDialogTextInput
                                 formLabel="cost"
                                 inputId="cost"
                                 inputName="cost"
                                 inputValue={data.plant.cost}
                                 setValue={handleChange}
                             />
-                            <FormDialogInput
+                            <FormDialogTextInput
                                 formLabel="description"
                                 inputId="description"
                                 inputName="description"
                                 inputValue={data.plant.description}
                                 setValue={handleChange}
                             />
-                            <FormDialogInput
+                            <FormDialogTextInput
                                 formLabel="image"
                                 inputId="image"
                                 inputName="image"
                                 inputValue={data.plant.image}
                                 setValue={handleChange}
                             />
-                            <FormDialogInput
+                            <FormDialogSelect
                                 formLabel="category"
                                 inputId="category"
-                                inputName="category"
-                                inputValue={data.plant.category.name}
-                                setValue={handleChange}
+                                options={data.categories}
+                                selected={data.plant.category.id}
+                                setValue={handleSelectChange}
                             />
                             <div className="flex space-x-4 justify-end">
                                 <button

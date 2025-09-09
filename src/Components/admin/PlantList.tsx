@@ -21,8 +21,10 @@ export default function PlantList() {
     const [insertPlant, setInsertPlant] = React.useState({
         name: "",
         cost: "",
-        description: ""
-    })
+        description: "",
+        image: "",
+        category: ""
+    });
 
     // TODO - Combine showEditPlant and editPlantId to 1 object:
     const [showEditPlant, setShowEditPlant] = React.useState(false);
@@ -163,7 +165,14 @@ export default function PlantList() {
                                                 onChange={handleInput}
                                             />
                                         </td>
-                                        <td className="p-2">input image</td>
+                                        <td className="p-2">
+                                            <input
+                                                type="text"
+                                                name="image"
+                                                value={insertPlant.image}
+                                                onChange={handleInput}
+                                            />
+                                        </td>
                                         <td className="p-2">
                                             <input
                                                 type="text"
@@ -180,7 +189,19 @@ export default function PlantList() {
                                                 onChange={handleInput}
                                             />
                                         </td>
-                                        <td className="p-2 pr-4">input category</td>
+                                        <td className="p-2 pr-4">
+                                            <select
+                                                name="categories"
+                                                id="category-select"
+                                            >
+                                                <option value={null}>--- Select a category ---</option>
+                                                {
+                                                    data.categories.map ( category => (
+                                                        <option key={category.id} value={category.id}>{category.name}</option>
+                                                    ))
+                                                }
+                                            </select>
+                                        </td>
                                     </tr>
                                 }
                                 </tbody>
