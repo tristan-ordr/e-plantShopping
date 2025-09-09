@@ -3,10 +3,28 @@ import Login from "./Login.jsx";
 import { NavLink, Outlet } from "react-router";
 import { useAuth } from "../../context/auth.jsx"
 
+// Import everything needed to use the `useQuery` hook
+import {ApolloClient, HttpLink, InMemoryCache} from "@apollo/client";
+import {ApolloProvider} from "@apollo/client/react";
+
+
+
 
 export default function Dashboard() {
     const { authorization } = useAuth();
     const token = authorization.token;
+
+    const client = new ApolloClient({
+        link: new HttpLink({
+            uri: "http://localhost:3000/api/graphql",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "apollo-require-preflight": "true",
+            },
+
+        }),
+        cache: new InMemoryCache(),
+    });
 
     return(
         <div className="relative w-screen h-screen">
@@ -48,7 +66,9 @@ export default function Dashboard() {
                                     </NavLink>
                                 </div>
                                 <div className="flex flex-row h-full">
-                                    <Outlet />
+                                    <ApolloProvider client={client}>
+                                        <Outlet />
+                                    </ApolloProvider>
                                 </div>
                             </div>
                         </>

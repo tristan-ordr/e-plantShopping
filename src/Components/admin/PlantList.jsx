@@ -1,33 +1,28 @@
-import React, {useEffect, useState} from 'react';
-import axios from "axios";
+import React from 'react';
 import { Link } from "react-router";
 import {gql} from "@apollo/client";
+import {useQuery} from "@apollo/client/react";
 
 
+export default function PlantList({categories}) {
+    const GET_PLANTS = gql`
+        query GetPlants {
+            plants {
+                name
+                cost
+                description
+                image
+                category {
+                    name
+                }
+            }
+        }
+        `;
 
-export default function PlantList() {
-    const [plantsArray, setPlantsArray] = useState([]);
-    const [categoriesArray, setCategoriesArray] = useState([]);
+    const { loading, error, data, data2 } = useQuery(GET_PLANTS);
 
-    useEffect( () => {
-        axios
-            .get("http://localhost:3000/plants")
-            .then(res => {
-                const categoryData = res.data.map (category => category.category);
-                setCategoriesArray(categoryData);
-
-                const plantData = res.data.flatMap( (category) => {
-                    return category.plants.map (plant => {
-                        return {
-                            category: category.category,
-                            ...plant
-                        }
-                    })
-                });
-                setPlantsArray(plantData);
-            })
-            .catch(err => console.log(err))
-    }, [])
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error : {error.message}</p>;
 
     return (
         <>
@@ -55,34 +50,16 @@ export default function PlantList() {
                 </tr>
                 </thead>
                 <tbody>
-                { plantsArray.map((plant, index) => (
+                { data.plants.map((plant, index) => (
                     <tr key={index} className="odd:bg-gray-100 even:bg-gray-200 ">
                         <td className="px-2">
-                            <select name={`${plant.name}-categories}`} id={`${plant.name}-categories}`}>
-                                { categoriesArray.map ((categoryName, index) => {
-                                    return (
-                                        <option key={index} value={categoryName} selected={categoryName === plant.category}>
-                                            {categoryName}
-                                        </option>
-                                    )
-                                })}
-                            </select>
+                            {plant.category.name}
                         </td>
                         <td className="px-2">
-                            <input
-                                type="text"
-                                id={`${plant.name}-name}`}
-                                name="name"
-                                value={plant.name}
-                            />
+                            {plant.name}
                         </td>
                         <td className="px-2">
-                            <input
-                                type="text"
-                                id={`${plant.name}-name}`}
-                                name="name"
-                                value={plant.cost}
-                            />
+                            {plant.cost}
                         </td>
                         <td>
                             <button className="mx-6 px-3 rounded-lg cursor-pointer hover:bg-red-800 hover:text-white">Delete</button>

@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 
 // Import everything needed to use the `useQuery` hook
 import {ApolloClient, gql, HttpLink, InMemoryCache} from "@apollo/client";

@@ -1,23 +1,33 @@
-import React, {useEffect, useState} from 'react';
-import axios from "axios";
-import {Link, Outlet} from "react-router";
-
+import React  from 'react';
+import {gql} from "@apollo/client";
+import {useQuery} from "@apollo/client/react";
+import PlantList from "./PlantList.jsx";
 
 
 export default function Inventory() {
-    const [plantsArray, setPlantsArray] = useState([]);
+    const GET_CATEGORIES = gql`
+        query GetPlants {
+            categories {
+                name
+                id
+            }
 
-    useEffect( () => {
-        axios
-            .get("http://localhost:3000/plants")
-            .then(res => setPlantsArray(res.data))
-            .catch(err => console.log(err))
-    }, [])
+        }
+    `;
+
+    const { loading, error, data } = useQuery(GET_CATEGORIES);
+
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error : {error.message}</p>;
 
     return (
         <div className="px-10 py-10 w-[100%] ">
             <div className="bg-white px-10 py-5 rounded-xl">
-                <Outlet/>
+                { data.categories &&
+                    <PlantList
+                        categories={data.categories}
+                    />
+                }
             </div>
         </div>
     )
