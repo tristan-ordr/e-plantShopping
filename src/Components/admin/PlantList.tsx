@@ -1,14 +1,16 @@
 import * as React from 'react';
+import {useEffect } from "react";
+
 import {gql, TypedDocumentNode} from "@apollo/client";
 import {useQuery} from "@apollo/client/react";
+import {GetPlantsQuery} from "../../types/generated/schema";
 
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CachedIcon from '@mui/icons-material/Cached';
 import NewLabelOutlinedIcon from '@mui/icons-material/NewLabelOutlined';
+
 import NewCategoryDialog from "./NewCategoryDialog.js";
-import {GetPlantsQuery} from "../../types/generated/schema";
 import EditPlantDialog from "./EditPlantDialog";
-import {useEffect, useRef} from "react";
 
 export default function PlantList() {
     // TODO - there are way too many different state objects...
