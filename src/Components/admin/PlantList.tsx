@@ -130,9 +130,9 @@ export default function PlantList() {
                                 <tr>
                                     <th scope="col" className="p-2 pl-4 text-left">id</th>
                                     <th scope="col" className="p-2 text-left">name</th>
-                                    <th scope="col" className="p-2 text-left">image</th>
                                     <th scope="col" className="p-2 text-left">cost</th>
                                     <th scope="col" className="p-2 text-left">description</th>
+                                    <th scope="col" className="p-2 text-left">image</th>
                                     <th scope="col" className="p-2 pr-4 text-left">category</th>
                                 </tr>
                                 </thead>
@@ -145,9 +145,9 @@ export default function PlantList() {
                                     >
                                         <td className="p-2 pl-4">{plant.id}</td>
                                         <td className="p-2">{plant.name}</td>
-                                        <td className="p-2">{plant.image}</td>
                                         <td className="p-2">{plant.cost}</td>
                                         <td className="p-2">{plant.description}</td>
+                                        <td className="p-2">{plant.image}</td>
                                         <td className="p-2 pr-4">{plant.category.name}</td>
                                     </tr>
                                 ))}
@@ -168,14 +168,6 @@ export default function PlantList() {
                                         <td className="p-2">
                                             <input
                                                 type="text"
-                                                name="image"
-                                                value={insertPlant.image}
-                                                onChange={handleInput}
-                                            />
-                                        </td>
-                                        <td className="p-2">
-                                            <input
-                                                type="text"
                                                 name="cost"
                                                 value={insertPlant.cost}
                                                 onChange={handleInput}
@@ -186,6 +178,14 @@ export default function PlantList() {
                                                 type="text"
                                                 name="description"
                                                 value={insertPlant.description}
+                                                onChange={handleInput}
+                                            />
+                                        </td>
+                                        <td className="p-2">
+                                            <input
+                                                type="text"
+                                                name="image"
+                                                value={insertPlant.image}
                                                 onChange={handleInput}
                                             />
                                         </td>
