@@ -1,13 +1,15 @@
-import React from 'react';
-import {gql} from "@apollo/client";
+import * as React from 'react';
+import {gql, TypedDocumentNode} from "@apollo/client";
 import {useQuery} from "@apollo/client/react";
 
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CachedIcon from '@mui/icons-material/Cached';
-import AddIcon from '@mui/icons-material/Add';
+import NewLabelOutlinedIcon from '@mui/icons-material/NewLabelOutlined';
+import NewCategoryDialog from "./NewCategoryDialog.js";
+import {GetPlantsQuery} from "../../types/generated/schema";
 
 export default function PlantList() {
-    const GET_PLANTS = gql`
+    const GET_PLANTS: TypedDocumentNode<GetPlantsQuery> = gql`
         query GetPlants {
             plants {
                 id
@@ -26,12 +28,28 @@ export default function PlantList() {
         }
         `;
 
+    const [open, setOpen] = React.useState(false);
+    const [selectedValue, setSelectedValue] = React.useState([]);
+
     const { loading, error, data, refetch } = useQuery(GET_PLANTS);
+
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error : {error.message}</p>;
 
     const hideBackButton = true
+
+
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    // @ts-ignore
     return (
         <div className="flex-1">
             <div className="flex flex-col space-y-1">
@@ -53,9 +71,10 @@ export default function PlantList() {
                                 <CachedIcon/>
                             </button>
                             <button
+                                onClick={()=> handleClickOpen()}
                                 className="group/button flex items-center justify-center border transform transition-transform duration-50 active:scale-95 focus:outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-50 bg-transparent border-transparent dark:text-pink-700 hover:bg-pink-100 hover:border-pink-100 disabled:bg-transparent disabled:border-transparent focus-visible:ring-pink-600 focus-visible:bg-pink-100 h-[34px] py-1.5 px-3 rounded-md text-sm leading-5 space-x-2 text-pink-500"
                                 title="Add category">
-                                <AddIcon className="mb-[2px]"/>
+                                <NewLabelOutlinedIcon className="mb-[2px] mr-[2px]"/>
                                 Add category
                             </button>
                         </div>
@@ -97,6 +116,10 @@ export default function PlantList() {
                     </div>
                 </div>
             </div>
+            <NewCategoryDialog
+                open={open}
+                onClose={handleClose}
+            />
         </div>
     )
 }

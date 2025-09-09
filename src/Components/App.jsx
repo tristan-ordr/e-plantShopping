@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import ProductList from './shopping/ProductList.jsx';
+import ProductList from './shopping/ProductList.tsx';
 import './App.css';
 import LandingPage from "./welcome/LandingPage.jsx";
 

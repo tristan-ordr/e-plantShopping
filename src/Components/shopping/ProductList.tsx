@@ -1,14 +1,15 @@
-import React, {useState, useEffect} from 'react';
+import * as React from "react";
+import {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import './ProductList.css'
 import {addItem} from "../../CartSlice.jsx";
-import {gql} from "@apollo/client";
+import {gql, TypedDocumentNode} from "@apollo/client";
 import {useQuery} from "@apollo/client/react";
 
 
 function ProductList() {
     const GET_PLANTS = gql`
-        query GetPlants {
+        query GetProductList {
             categories {
                 plants {
                     id

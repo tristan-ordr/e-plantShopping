@@ -2,7 +2,7 @@ import {createBrowserRouter, redirect} from "react-router";
 import Root from "./Components/Root.jsx";
 import LandingPage from "./Components/welcome/LandingPage.jsx";
 import Shopping from "./Components/shopping/Shopping.jsx";
-import ProductList from "./Components/shopping/ProductList.jsx";
+import ProductList from "./Components/shopping/ProductList.tsx";
 import CartItem from "./Components/shopping/CartItem.jsx";
 import Admin from "./Components/admin/Admin.jsx";
 import Login from "./Components/admin/Login.jsx";
@@ -13,7 +13,7 @@ import Dashboard from "./Components/admin/Dashboard.jsx";
 import Preferences from "./Components/admin/Preferences.jsx";
 import NewPlant from "./Components/admin/NewPlant.jsx";
 import Category from "./Components/admin/Category.jsx";
-import PlantList from "./Components/admin/PlantList.jsx";
+import PlantList from "./Components/admin/PlantList.tsx";
 import Locations from "./Components/admin/Locations.jsx";
 
 const shoppingRouter = createBrowserRouter([
