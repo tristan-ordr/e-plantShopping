@@ -10,6 +10,8 @@ import CachedIcon from '@mui/icons-material/Cached';
 import NewLabelOutlinedIcon from '@mui/icons-material/NewLabelOutlined';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 
+import LogoutIcon from '@mui/icons-material/Logout';
+
 import NewCategoryDialog from "./NewCategoryDialog.js";
 import EditPlantDialog from "./EditPlantDialog";
 import RemoveCategoriesDialog from "./RemoveCategoriesDialog";
@@ -64,7 +66,7 @@ export default function PlantList() {
     // Derived values
 
     // Settings
-    const hideBackButton = true
+    const hideBackButton = false
 
     // Event handlers
     const handleInput = (event: React.ChangeEvent<HTMLInputElement>)  => {
@@ -93,23 +95,17 @@ export default function PlantList() {
         }
     }, [showNewPlant])
 
-
-    // Rendering
-    if (loading) return <p>Loading...</p>;
-
-    if (error) return <p>Error : {error.message}</p>;
-
     return (
         <div className="flex-1">
             <div className="flex flex-col space-y-1">
-                <div className="flex flex-col flex-grow mt-5">
+                <div className="flex flex-col flex-grow">
+                    <button
+                        name="Logout"
+                        className={`group/button flex items-center justify-center border -scale-x-100 transform transition-transform duration-50 active:scale-95 focus:outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-50 bg-transparent border-transparent text-foreground hover:bg-gray-100 hover:border-gray-100 disabled:bg-transparent disabled:border-transparent focus-visible:ring-gray-600 focus-visible:bg-gray-100 h-[34px] py-1.5 rounded-md text-sm leading-5 space-x-2 w-[34px] px-0 flex-shrink-0`}>
+                        <LogoutIcon/>
+                    </button>
                     <div className="relative flex items-center justify-center">
-                        <div className="absolute top-0 flex items-center left-0">
-                            <button
-                                className={`group/button ${hideBackButton ? "hidden" : "flex"} items-center justify-center border transform transition-transform duration-50 active:scale-95 focus:outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-50 bg-transparent border-transparent text-foreground hover:bg-gray-100 hover:border-gray-100 disabled:bg-transparent disabled:border-transparent focus-visible:ring-gray-600 focus-visible:bg-gray-100 h-[34px] py-1.5 rounded-md text-sm leading-5 space-x-2 w-[34px] px-0 flex-shrink-0`}>
-                                <ArrowBackIcon/>
-                            </button>
-                        </div>
+                        <div className="absolute top-0 flex items-center left-0"></div>
                         <p className="text-lg">Plants</p>
                         <div className="absolute top-0 flex items-center right-0">
                             <button
@@ -126,7 +122,7 @@ export default function PlantList() {
                                 <NewLabelOutlinedIcon className="mb-[2px] mr-[2px]"/>
                                 Add category
                             </button>
-                            { data.categories.length > 1 && <button
+                            { data && data.categories.length > 1 && <button
                                 onClick={()=> setShowRemoveCategories(true)}
                                 className="group/button flex items-center justify-center border transform transition-transform duration-50 active:scale-95 focus:outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-50 bg-transparent border-transparent dark:text-pink-700 hover:bg-pink-100 hover:border-pink-100 disabled:bg-transparent disabled:border-transparent focus-visible:ring-pink-600 focus-visible:bg-pink-100 h-[34px] py-1.5 px-3 rounded-md text-sm leading-5 space-x-2 text-pink-500"
                                 title="Delete categories">
@@ -152,7 +148,14 @@ export default function PlantList() {
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {data.plants.map((plant) => (
+                                {
+                                    loading && <p>Loading...</p>
+                                }
+                                {
+                                    error && <p>Error : {error.message}</p>
+                                }
+                                {   data && data.plants &&
+                                    data.plants.map((plant) => (
                                     <tr
                                         key={plant.id}
                                         className="hover:bg-gray-200 whitespace-nowrap"
@@ -211,7 +214,7 @@ export default function PlantList() {
                                             >
                                                 <option value={null}>--- Select a category ---</option>
                                                 {
-                                                    data.categories.map ( category => (
+                                                    data && data.categories.map ( category => (
                                                         <option key={category.id} value={category.id}>{category.name}</option>
                                                     ))
                                                 }
@@ -252,7 +255,7 @@ export default function PlantList() {
                 setShow={setShowNewCategory}
                 refetch={refetch}
             />}
-            {showRemoveCategories && <RemoveCategoriesDialog
+            { data && showRemoveCategories && <RemoveCategoriesDialog
                 categories={data.categories}
                 show={showRemoveCategories}
                 setShow={setShowRemoveCategories}
