@@ -7,6 +7,7 @@ import {GetPlantQuery, GetPlantQueryVariables} from "../../types/generated/schem
 import FormDialogTextInput from "../forms/FormDialogTextInput";
 import FormDialogSelect from "../forms/FormDialogSelect";
 
+
 export default function EditPlantDialog({show, setShow, plantId, setPlantId }) {
     const GET_PLANT: TypedDocumentNode<GetPlantQuery, GetPlantQueryVariables> = gql`
         query GetPlant($plantId: ID!) {
@@ -77,6 +78,7 @@ export default function EditPlantDialog({show, setShow, plantId, setPlantId }) {
                                 inputName="name"
                                 inputValue={data.plant.name}
                                 setValue={handleChange}
+                                inputError={null}
                             />
                             <FormDialogTextInput
                                 formLabel="cost"
@@ -84,6 +86,7 @@ export default function EditPlantDialog({show, setShow, plantId, setPlantId }) {
                                 inputName="cost"
                                 inputValue={data.plant.cost}
                                 setValue={handleChange}
+                                inputError={null}
                             />
                             <FormDialogTextInput
                                 formLabel="description"
@@ -91,6 +94,7 @@ export default function EditPlantDialog({show, setShow, plantId, setPlantId }) {
                                 inputName="description"
                                 inputValue={data.plant.description}
                                 setValue={handleChange}
+                                inputError={null}
                             />
                             <FormDialogTextInput
                                 formLabel="image"
@@ -98,6 +102,7 @@ export default function EditPlantDialog({show, setShow, plantId, setPlantId }) {
                                 inputName="image"
                                 inputValue={data.plant.image}
                                 setValue={handleChange}
+                                inputError={null}
                             />
                             <FormDialogSelect
                                 formLabel="category"

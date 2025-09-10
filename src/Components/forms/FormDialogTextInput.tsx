@@ -14,6 +14,7 @@ export default function FormDialogTextInput({formLabel, inputId, inputName, inpu
             <div className="flex items-center relative w-full">
                 <input
                     className={`w-full min-w-0 rounded-md text-foreground bg-transparent border placeholder-gray-500 focus:outline-none relative z-10 text-base leading-6 px-3 py-2 ${inputError? "border-red-500 " : "border-gray-200 hover:border-gray-400 focus:border-pink-400 "} `}
+                    data-1p-ignore
                     id={inputId}
                     name={inputName}
                     value={inputValue}
