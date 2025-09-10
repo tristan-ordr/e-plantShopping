@@ -75,7 +75,7 @@ export type GetPlantQueryVariables = Exact<{
 export type GetPlantQuery = { plant: { __typename: 'Plant', name: string, cost: string | null, description: string | null, image: string | null, category: { __typename: 'Category', id: string, name: string } } | null, categories: Array<{ __typename: 'Category', id: string, name: string }> | null };
 
 export type InsertCategoryMutationVariables = Exact<{
-  categoryName: Scalars['String']['input'];
+  name: Scalars['String']['input'];
 }>;
 
 
@@ -85,6 +85,11 @@ export type GetPlantsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetPlantsQuery = { plants: Array<{ __typename: 'Plant', id: string, name: string, cost: string | null, description: string | null, image: string | null, category: { __typename: 'Category', name: string } }> | null, categories: Array<{ __typename: 'Category', id: string, name: string }> | null };
+
+export type GetCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetCategoriesQuery = { categories: Array<{ __typename: 'Category', id: string, name: string }> | null };
 
 export type GetProductListQueryVariables = Exact<{ [key: string]: never; }>;
 

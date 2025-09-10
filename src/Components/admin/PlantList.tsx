@@ -12,6 +12,7 @@ import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined
 
 import NewCategoryDialog from "./NewCategoryDialog.js";
 import EditPlantDialog from "./EditPlantDialog";
+import RemoveCategoriesDialog from "./RemoveCategoriesDialog";
 
 export default function PlantList() {
     // TODO - there are way too many different state objects...
@@ -19,6 +20,7 @@ export default function PlantList() {
 
     // State
     const [showNewCategory, setShowNewCategory] = React.useState(false);
+    const [showRemoveCategories, setShowRemoveCategories] = React.useState(false);
 
     const [showNewPlant, setShowNewPlant] = React.useState(false);
     const [insertPlant, setInsertPlant] = React.useState({
@@ -122,13 +124,13 @@ export default function PlantList() {
                                 <NewLabelOutlinedIcon className="mb-[2px] mr-[2px]"/>
                                 Add category
                             </button>
-                            <button
-                                onClick={()=> setShowNewCategory(true)}
+                            { data.categories.length > 1 && <button
+                                onClick={()=> setShowRemoveCategories(true)}
                                 className="group/button flex items-center justify-center border transform transition-transform duration-50 active:scale-95 focus:outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-50 bg-transparent border-transparent dark:text-pink-700 hover:bg-pink-100 hover:border-pink-100 disabled:bg-transparent disabled:border-transparent focus-visible:ring-pink-600 focus-visible:bg-pink-100 h-[34px] py-1.5 px-3 rounded-md text-sm leading-5 space-x-2 text-pink-500"
                                 title="Delete categories">
-                                <DeleteForeverOutlinedIcon className="mb-[2px] mr-[2px]"/>
-
-                            </button>
+                                    <DeleteForeverOutlinedIcon className="mb-[2px] mr-[2px]"/>
+                                </button>
+                            }
                         </div>
                     </div>
                     <div className="pt-1"></div>
@@ -246,6 +248,10 @@ export default function PlantList() {
             <NewCategoryDialog
                 show={showNewCategory}
                 setShow={setShowNewCategory}
+            />
+            <RemoveCategoriesDialog
+                show={showRemoveCategories}
+                setShow={setShowRemoveCategories}
             />
             {editPlantId && <EditPlantDialog
                 show={showEditPlant}
