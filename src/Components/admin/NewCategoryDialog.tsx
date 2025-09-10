@@ -17,7 +17,7 @@ const INSERT_CATEGORY: TypedDocumentNode<InsertCategoryMutation, InsertCategoryM
 `;
 
 
-export default function NewCategoryDialog({ show, setShow }) {
+export default function NewCategoryDialog({ show, setShow, refetch }) {
     const [name, setName] = useState("")
 
     const [mutate, {data, loading, error}] = useMutation(INSERT_CATEGORY)
@@ -31,6 +31,8 @@ export default function NewCategoryDialog({ show, setShow }) {
 
         mutate({variables: { name }})
             .then( result => {
+                setName("");
+                refetch();
                 setShow(false);
             })
             .catch(e => {
@@ -56,6 +58,7 @@ export default function NewCategoryDialog({ show, setShow }) {
                             inputName="categoryName"
                             inputValue={name}
                             setValue={handleChange}
+                            inputError={error}
                         />
 
                         <div className="flex space-x-4 justify-end">

@@ -1,6 +1,9 @@
 import * as React from 'react';
 
-export default function FormDialogTextInput({formLabel, inputId, inputName, inputValue, setValue}) {
+export default function FormDialogTextInput({formLabel, inputId, inputName, inputValue, setValue, inputError}) {
+
+    console.log(inputError);
+
     return(
         <div className="flex flex-col w-full">
             <div className="flex justify-between items-center">
@@ -10,13 +13,16 @@ export default function FormDialogTextInput({formLabel, inputId, inputName, inpu
             </div>
             <div className="flex items-center relative w-full">
                 <input
-                    className="w-full min-w-0 rounded-md text-foreground bg-transparent border border-gray-200 placeholder-gray-500 focus:outline-none relative z-10 hover:border-gray-400 focus:border-pink-400 text-base leading-6 px-3 py-2"
+                    className={`w-full min-w-0 rounded-md text-foreground bg-transparent border placeholder-gray-500 focus:outline-none relative z-10 text-base leading-6 px-3 py-2 ${inputError? "border-red-500 " : "border-gray-200 hover:border-gray-400 focus:border-pink-400 "} `}
                     id={inputId}
                     name={inputName}
                     value={inputValue}
                     onChange={setValue}
                 />
             </div>
+            { inputError && <div className="text-xs m-1 text-red-600">
+                <p>{inputError.message}</p>
+            </div>}
         </div>
     )
 }

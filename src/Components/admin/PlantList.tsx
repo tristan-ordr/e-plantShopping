@@ -14,7 +14,33 @@ import NewCategoryDialog from "./NewCategoryDialog.js";
 import EditPlantDialog from "./EditPlantDialog";
 import RemoveCategoriesDialog from "./RemoveCategoriesDialog";
 
+// GraphQL Query
+const GET_PLANTS: TypedDocumentNode<GetPlantsQuery> = gql`
+    query GetPlants {
+        plants {
+            id
+            name
+            cost
+            description
+            image
+            category {
+                name
+            }
+        }
+        categories {
+            id
+            name
+            plants { id }
+        }
+    }
+`;
+
+
 export default function PlantList() {
+    // Use Query
+    const { loading, error, data, refetch } = useQuery(GET_PLANTS);
+
+
     // TODO - there are way too many different state objects...
 
 
@@ -67,30 +93,6 @@ export default function PlantList() {
         }
     }, [showNewPlant])
 
-
-    // GraphQL Query
-    const GET_PLANTS: TypedDocumentNode<GetPlantsQuery> = gql`
-        query GetPlants {
-            plants {
-                id
-                name
-                cost
-                description
-                image
-                category {
-                    name
-                }
-            }
-            categories {
-                id
-                name
-            }
-        }
-        `;
-
-
-    // Use Query
-    const { loading, error, data, refetch } = useQuery(GET_PLANTS);
 
     // Rendering
     if (loading) return <p>Loading...</p>;
@@ -245,14 +247,17 @@ export default function PlantList() {
                     </div>
                 </div>
             </div>
-            <NewCategoryDialog
+            { showNewCategory && <NewCategoryDialog
                 show={showNewCategory}
                 setShow={setShowNewCategory}
-            />
-            <RemoveCategoriesDialog
+                refetch={refetch}
+            />}
+            {showRemoveCategories && <RemoveCategoriesDialog
+                categories={data.categories}
                 show={showRemoveCategories}
                 setShow={setShowRemoveCategories}
-            />
+                refetch={refetch}
+            />}
             {editPlantId && <EditPlantDialog
                 show={showEditPlant}
                 setShow={setShowEditPlant}
