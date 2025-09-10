@@ -180,6 +180,7 @@ export default function PlantList() {
                                             <td></td>
                                             <td className="p-2">
                                                 <input
+                                                    data-1p-ignore
                                                     id="insert-plant-name-input"
                                                     type="text"
                                                     name="name"
@@ -189,6 +190,7 @@ export default function PlantList() {
                                             </td>
                                             <td className="p-2">
                                                 <input
+                                                    data-1p-ignore
                                                     type="text"
                                                     name="cost"
                                                     value={insertPlant.cost}
@@ -197,6 +199,7 @@ export default function PlantList() {
                                             </td>
                                             <td className="p-2">
                                                 <input
+                                                    data-1p-ignore
                                                     type="text"
                                                     name="description"
                                                     value={insertPlant.description}
@@ -205,6 +208,7 @@ export default function PlantList() {
                                             </td>
                                             <td className="p-2">
                                                 <input
+                                                    data-1p-ignore
                                                     type="text"
                                                     name="image"
                                                     value={insertPlant.image}

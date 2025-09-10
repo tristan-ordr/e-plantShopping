@@ -6,6 +6,7 @@ import {useQuery} from "@apollo/client/react";
 import {GetPlantQuery, GetPlantQueryVariables} from "../../types/generated/schema";
 
 import PlantForm from "./PlantForm";
+import DeletePlantButton from "./DeletePlantButton";
 
 const GET_PLANT: TypedDocumentNode<GetPlantQuery, GetPlantQueryVariables> = gql`
     query GetPlant($plantId: ID!) {
@@ -53,7 +54,11 @@ export default function EditPlantDialog({show, setShow, plantId, setPlantId, ref
             <div
                 className="w-full max-h-screen focus:outline-none relative p-8 bg-background dark:bg-secondaryBg rounded-xl overflow-y-auto md:w-[520px]">
                 <div className="flex flex-col space-y-6">
-                    <h1 className="text-xl font-semibold">Edit plant</h1>
+                    <div className="flex flex-row mb-1 justify-between align-center">
+                        <h1 className="text-xl font-semibold align-middle">Edit plant</h1>
+                        <DeletePlantButton/>
+                    </div>
+
                     {
                         loading && <p>Loading...</p>
                     }
