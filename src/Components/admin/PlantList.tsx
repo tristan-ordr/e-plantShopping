@@ -8,6 +8,7 @@ import {GetPlantsQuery} from "../../types/generated/schema";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CachedIcon from '@mui/icons-material/Cached';
 import NewLabelOutlinedIcon from '@mui/icons-material/NewLabelOutlined';
+import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 
 import NewCategoryDialog from "./NewCategoryDialog.js";
 import EditPlantDialog from "./EditPlantDialog";
@@ -120,6 +121,13 @@ export default function PlantList() {
                                 title="Add category">
                                 <NewLabelOutlinedIcon className="mb-[2px] mr-[2px]"/>
                                 Add category
+                            </button>
+                            <button
+                                onClick={()=> setShowNewCategory(true)}
+                                className="group/button flex items-center justify-center border transform transition-transform duration-50 active:scale-95 focus:outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-50 bg-transparent border-transparent dark:text-pink-700 hover:bg-pink-100 hover:border-pink-100 disabled:bg-transparent disabled:border-transparent focus-visible:ring-pink-600 focus-visible:bg-pink-100 h-[34px] py-1.5 px-3 rounded-md text-sm leading-5 space-x-2 text-pink-500"
+                                title="Delete categories">
+                                <DeleteForeverOutlinedIcon className="mb-[2px] mr-[2px]"/>
+
                             </button>
                         </div>
                     </div>
