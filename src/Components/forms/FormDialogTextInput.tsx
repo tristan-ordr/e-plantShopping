@@ -1,9 +1,6 @@
 import * as React from 'react';
 
 export default function FormDialogTextInput({formLabel, inputId, inputName, inputValue, setValue, inputError}) {
-
-    console.log(inputError);
-
     return(
         <div className="flex flex-col w-full">
             <div className="flex justify-between items-center">

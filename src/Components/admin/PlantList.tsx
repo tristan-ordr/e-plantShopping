@@ -141,94 +141,96 @@ export default function PlantList() {
                         <div
                             id="plant-data-grid"
                             className="grid grid-cols-[minmax(0,1fr)] max-h-[360px]  overflow-x-auto flex-grow rounded-lg border border-gray-200">
-                            <table className="w-[100%] border-collapse select-auto">
-                                <thead className="bg:white hover:bg-gray-200 sticky top-0">
-                                <tr>
-                                    <th scope="col" className="p-2 pl-4 text-left">id</th>
-                                    <th scope="col" className="p-2 text-left">name</th>
-                                    <th scope="col" className="p-2 text-left">cost</th>
-                                    <th scope="col" className="p-2 text-left">description</th>
-                                    <th scope="col" className="p-2 text-left">image</th>
-                                    <th scope="col" className="p-2 pr-4 text-left">category</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {
-                                    loading && <p>Loading...</p>
-                                }
-                                {
-                                    error && <p>Error : {error.message}</p>
-                                }
-                                {   data && data.plants &&
-                                    data.plants.map((plant) => (
-                                    <tr
-                                        key={plant.id}
-                                        className="hover:bg-gray-200 whitespace-nowrap"
-                                        onClick={() => {handleTableRowClicked(plant.id)}}
-                                    >
-                                        <td className="p-2 pl-4">{plant.id}</td>
-                                        <td className="p-2">{plant.name}</td>
-                                        <td className="p-2">{plant.cost}</td>
-                                        <td className="p-2">{plant.description}</td>
-                                        <td className="p-2">{plant.image}</td>
-                                        <td className="p-2 pr-4">{plant.category.name}</td>
+                            {
+                                loading && <p>Loading...</p>
+                            }
+                            {
+                                error && <p>Error : {error.message}</p>
+                            }
+                            { data && data.plants &&
+                                <table className="w-[100%] border-collapse select-auto">
+                                    <thead className="bg:white hover:bg-gray-200 sticky top-0">
+                                    <tr>
+                                        <th scope="col" className="p-2 pl-4 text-left">id</th>
+                                        <th scope="col" className="p-2 text-left">name</th>
+                                        <th scope="col" className="p-2 text-left">cost</th>
+                                        <th scope="col" className="p-2 text-left">description</th>
+                                        <th scope="col" className="p-2 text-left">image</th>
+                                        <th scope="col" className="p-2 pr-4 text-left">category</th>
                                     </tr>
-                                ))}
-                                { showNewPlant &&
-                                    <tr
-                                        key="new-plant"
-                                    >
-                                        <td></td>
-                                        <td className="p-2">
-                                            <input
-                                                id="insert-plant-name-input"
-                                                type="text"
-                                                name="name"
-                                                value={insertPlant.name}
-                                                onChange={handleInput}
-                                            />
-                                        </td>
-                                        <td className="p-2">
-                                            <input
-                                                type="text"
-                                                name="cost"
-                                                value={insertPlant.cost}
-                                                onChange={handleInput}
-                                            />
-                                        </td>
-                                        <td className="p-2">
-                                            <input
-                                                type="text"
-                                                name="description"
-                                                value={insertPlant.description}
-                                                onChange={handleInput}
-                                            />
-                                        </td>
-                                        <td className="p-2">
-                                            <input
-                                                type="text"
-                                                name="image"
-                                                value={insertPlant.image}
-                                                onChange={handleInput}
-                                            />
-                                        </td>
-                                        <td className="p-2 pr-4">
-                                            <select
-                                                name="categories"
-                                                id="category-select"
-                                            >
-                                                <option value={null}>--- Select a category ---</option>
-                                                {
-                                                    data && data.categories.map ( category => (
-                                                        <option key={category.id} value={category.id}>{category.name}</option>
-                                                    ))
-                                                }
-                                            </select>
-                                        </td>
-                                    </tr>
-                                }
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                    { data.plants.map((plant) => (
+                                        <tr
+                                            key={plant.id}
+                                            className="hover:bg-gray-200 whitespace-nowrap"
+                                            onClick={() => {handleTableRowClicked(plant.id)}}
+                                        >
+                                            <td className="p-2 pl-4">{plant.id}</td>
+                                            <td className="p-2">{plant.name}</td>
+                                            <td className="p-2">{plant.cost}</td>
+                                            <td className="p-2">{plant.description}</td>
+                                            <td className="p-2">{plant.image}</td>
+                                            <td className="p-2 pr-4">{plant.category.name}</td>
+                                        </tr>
+                                    ))}
+                                    { showNewPlant &&
+                                        <tr
+                                            key="new-plant"
+                                        >
+                                            <td></td>
+                                            <td className="p-2">
+                                                <input
+                                                    id="insert-plant-name-input"
+                                                    type="text"
+                                                    name="name"
+                                                    value={insertPlant.name}
+                                                    onChange={handleInput}
+                                                />
+                                            </td>
+                                            <td className="p-2">
+                                                <input
+                                                    type="text"
+                                                    name="cost"
+                                                    value={insertPlant.cost}
+                                                    onChange={handleInput}
+                                                />
+                                            </td>
+                                            <td className="p-2">
+                                                <input
+                                                    type="text"
+                                                    name="description"
+                                                    value={insertPlant.description}
+                                                    onChange={handleInput}
+                                                />
+                                            </td>
+                                            <td className="p-2">
+                                                <input
+                                                    type="text"
+                                                    name="image"
+                                                    value={insertPlant.image}
+                                                    onChange={handleInput}
+                                                />
+                                            </td>
+                                            <td className="p-2 pr-4">
+                                                <select
+                                                    name="categories"
+                                                    id="category-select"
+                                                >
+                                                    <option value={null}>--- Select a category ---</option>
+                                                    {
+                                                        data && data.categories.map ( category => (
+                                                            <option key={category.id} value={category.id}>{category.name}</option>
+                                                        ))
+                                                    }
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    }
+                                    </tbody>
+                                </table>
+                            }
+
                         </div>
                         <div className="space-x-3 flex justify-end pt-2">
                             { !showNewPlant &&
