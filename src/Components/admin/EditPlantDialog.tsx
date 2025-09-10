@@ -3,12 +3,12 @@ import * as React from "react";
 import {Drawer} from "@mui/material";
 import {gql, TypedDocumentNode} from "@apollo/client";
 import {useQuery} from "@apollo/client/react";
-import {GetPlantQuery} from "../../types/generated/schema";
+import {GetPlantQuery, GetPlantQueryVariables} from "../../types/generated/schema";
 import FormDialogTextInput from "../forms/FormDialogTextInput";
 import FormDialogSelect from "../forms/FormDialogSelect";
 
 export default function EditPlantDialog({show, setShow, plantId, setPlantId }) {
-    const GET_PLANT: TypedDocumentNode<GetPlantQuery> = gql`
+    const GET_PLANT: TypedDocumentNode<GetPlantQuery, GetPlantQueryVariables> = gql`
         query GetPlant($plantId: ID!) {
             plant(id: $plantId) {
                 name

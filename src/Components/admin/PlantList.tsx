@@ -47,8 +47,13 @@ export default function PlantList() {
         }));
     }
 
+    const handleTableRowClicked = (plantId: string) => {
+        setShowEditPlant(true);
+        setEditPlantId(plantId)
+    }
 
-    // useEffect hooks:
+
+    // useEffect for interacting with the DOM:
     useEffect( () => {
         if (showNewPlant) {
             const divElement = document.getElementById('plant-data-grid');
@@ -59,10 +64,6 @@ export default function PlantList() {
         }
     }, [showNewPlant])
 
-    const handleTableRowClicked = (plantId: string) => {
-        setShowEditPlant(true);
-        setEditPlantId(plantId)
-    }
 
     // GraphQL Query
     const GET_PLANTS: TypedDocumentNode<GetPlantsQuery> = gql`

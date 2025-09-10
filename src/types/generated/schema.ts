@@ -21,6 +21,16 @@ export type Category = {
   plants: Maybe<Array<Plant>>;
 };
 
+export type Mutation = {
+  __typename: 'Mutation';
+  createCategory: Category;
+};
+
+
+export type MutationCreateCategoryArgs = {
+  name: Scalars['String']['input'];
+};
+
 export type Plant = {
   __typename: 'Plant';
   category: Category;
@@ -29,6 +39,14 @@ export type Plant = {
   id: Scalars['ID']['output'];
   image: Maybe<Scalars['String']['output']>;
   name: Scalars['String']['output'];
+};
+
+export type PlantInput = {
+  category_id: Scalars['ID']['input'];
+  cost?: InputMaybe<Scalars['String']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  image?: InputMaybe<Scalars['String']['input']>;
+  name: Scalars['String']['input'];
 };
 
 export type Query = {
@@ -55,6 +73,13 @@ export type GetPlantQueryVariables = Exact<{
 
 
 export type GetPlantQuery = { plant: { __typename: 'Plant', name: string, cost: string | null, description: string | null, image: string | null, category: { __typename: 'Category', id: string, name: string } } | null, categories: Array<{ __typename: 'Category', id: string, name: string }> | null };
+
+export type InsertCategoryMutationVariables = Exact<{
+  categoryName: Scalars['String']['input'];
+}>;
+
+
+export type InsertCategoryMutation = { createCategory: { __typename: 'Category', id: string, name: string } };
 
 export type GetPlantsQueryVariables = Exact<{ [key: string]: never; }>;
 

@@ -3,16 +3,33 @@ import * as React from "react";
 import Dialog from "@mui/material/Dialog";
 import { useState } from "react";
 import FormDialogTextInput from "../forms/FormDialogTextInput";
+import {gql, TypedDocumentNode} from "@apollo/client";
+import {useQuery} from "@apollo/client/react";
+import {InsertCategoryMutation, InsertCategoryMutationVariables} from "../../types/generated/schema";
 
 export default function NewCategoryDialog({ show, setShow }) {
-    const [name, setName] = useState("")
+    const [categoryName, setCategoryName] = useState("")
+
+    const INSERT_CATEGORY: TypedDocumentNode<InsertCategoryMutation, InsertCategoryMutationVariables> = gql`
+        mutation InsertCategory($name: String!) {
+            createCategory(name: $name) {
+                id
+                name
+            }
+        }
+    `;
+
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setName(event.target.value)
+        setCategoryName(event.target.value)
     }
 
     const handleSubmit = () => {
         console.log("submit");
+
+        const { loading, error, data } = useQuery(INSERT_CATEGORY, {
+            variables: { categoryName }
+        });
 
         setShow(false);
     }
@@ -32,8 +49,8 @@ export default function NewCategoryDialog({ show, setShow }) {
                         <FormDialogTextInput
                             formLabel="Name"
                             inputId="category-name"
-                            inputName="name"
-                            inputValue={name}
+                            inputName="categoryName"
+                            inputValue={categoryName}
                             setValue={handleChange}
                         />
 
