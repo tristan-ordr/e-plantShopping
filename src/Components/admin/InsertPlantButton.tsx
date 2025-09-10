@@ -15,8 +15,6 @@ export default function InsertPlantButton({plant, onComplete}) {
     const [mutate, {data, loading, error}] = useMutation(INSERT_PLANT)
 
     const insertPlant = () => {
-        console.log(plant);
-
         mutate({variables: {plant}})
             .then(result => {
                 onComplete()

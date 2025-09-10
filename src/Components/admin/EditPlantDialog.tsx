@@ -56,7 +56,13 @@ export default function EditPlantDialog({show, setShow, plantId, setPlantId, ref
                 <div className="flex flex-col space-y-6">
                     <div className="flex flex-row mb-1 justify-between align-center">
                         <h1 className="text-xl font-semibold align-middle">Edit plant</h1>
-                        <DeletePlantButton/>
+                        <DeletePlantButton
+                            plantId={plantId}
+                            onComplete={() => {
+                                refetch();
+                                handleClose();
+                            }}
+                        />
                     </div>
 
                     {

@@ -1,9 +1,27 @@
 import * as React from "react";
 import DeleteIcon from '@mui/icons-material/Delete';
+import {gql} from "@apollo/client";
+import {useMutation} from "@apollo/client/react";
 
-export default function DeletePlantButton() {
+const DELETE_PLANT = gql`
+    mutation DeletePlant($id: ID!) {
+        deletePlant(id: $id) {
+            id
+        }
+    }
+`;
+
+export default function DeletePlantButton({plantId, onComplete}) {
+    const [mutate, {data, loading, error}] = useMutation(DELETE_PLANT)
+
     const onDelete = () => {
-        console.log("delete plant!")
+        mutate({variables: {id: plantId}})
+            .then(result => {
+                onComplete()
+            })
+            .catch(e => {
+                console.log(e)
+            })
     }
 
     return (

@@ -1,7 +1,7 @@
 import * as React from "react";
 
 export default function TableRowNewPlant({categoryList, insertPlant, setInsertPlant}) {
-    const handleInput = (event: React.ChangeEvent<HTMLInputElement>)  => {
+    const handleInput = (event)  => {
         const {name, value} = event.target;
 
         setInsertPlant(prevState=> ({
