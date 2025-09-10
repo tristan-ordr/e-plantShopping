@@ -84,6 +84,10 @@ export default function PlantList() {
     }
 
 
+    const logout = () => {
+        alert("Logout is not yet implemented!")
+    }
+
     // useEffect for interacting with the DOM:
     useEffect( () => {
         if (showNewPlant) {
@@ -100,8 +104,9 @@ export default function PlantList() {
             <div className="flex flex-col space-y-1">
                 <div className="flex flex-col flex-grow">
                     <button
+                        onClick={() => logout()}
                         name="Logout"
-                        className={`group/button flex items-center justify-center border -scale-x-100 transform transition-transform duration-50 active:scale-95 focus:outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-50 bg-transparent border-transparent text-foreground hover:bg-gray-100 hover:border-gray-100 disabled:bg-transparent disabled:border-transparent focus-visible:ring-gray-600 focus-visible:bg-gray-100 h-[34px] py-1.5 rounded-md text-sm leading-5 space-x-2 w-[34px] px-0 flex-shrink-0`}>
+                        className={`group/button flex items-center justify-center border -scale-x-100 transform transition-transform duration-50 active:-scale-95 focus:outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-50 bg-transparent border-transparent text-foreground hover:bg-gray-100 hover:border-gray-100 disabled:bg-transparent disabled:border-transparent focus-visible:ring-gray-600 focus-visible:bg-gray-100 h-[34px] py-1.5 rounded-md text-sm leading-5 space-x-2 w-[34px] px-0 flex-shrink-0`}>
                         <LogoutIcon/>
                     </button>
                     <div className="relative flex items-center justify-center">
