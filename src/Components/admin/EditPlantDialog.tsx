@@ -32,9 +32,12 @@ export default function EditPlantDialog({show, setShow, plantId, setPlantId }) {
         variables: { plantId }
     });
 
-    const handleSubmit = () => {
+    const handleSubmit = (data) => {
         console.log("submit");
-        setShow(false);
+        console.log(data);
+
+
+        // setShow(false);
     }
 
     const handleClose = () => {
@@ -59,25 +62,11 @@ export default function EditPlantDialog({show, setShow, plantId, setPlantId }) {
                         error && <p>Error : {error.message}</p>
                     }
                     { data && (<>
-
-                        <PlantForm data={data}/>
-
-                        <div className="flex space-x-4 justify-end">
-                            <button
-                                onClick={() => {setShow(false)}}
-                                className="group/button flex items-center justify-center border transform transition-transform duration-50 active:scale-95 focus:outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-50 bg-gray-100 border-gray-200 text-foreground hover:bg-gray-200 hover:border-gray-300 disabled:bg-gray-100 disabled:border-gray-200 focus-visible:ring-gray-600 h-[42px] py-2 px-3 rounded-md text-base leading-6 space-x-3"
-                                type="button">
-                                <span className="inline-block">
-                                    Cancel
-                                </span>
-                            </button>
-                            <button
-                                onClick={() => {handleSubmit()}}
-                                type="button"
-                                className="group/button flex items-center justify-center border transform transition-transform duration-50 active:scale-95 focus:outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-50 bg-pink-500 border-pink-500 text-white hover:bg-pink-600 hover:border-pink-600 disabled:bg-pink-500 disabled:border-pink-500 focus-visible:ring-pink-600 h-[42px] py-2 px-3 rounded-md text-base leading-6 space-x-3">
-                                <span className="inline-block">Save</span>
-                            </button>
-                        </div>
+                        <PlantForm
+                            data={data}
+                            onCancel={handleClose}
+                            onSubmit={handleSubmit}
+                        />
                     </>)}
                 </div>
             </div>
