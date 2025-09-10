@@ -37,6 +37,7 @@ export default function RemoveCategoriesDialog({ show, setShow }) {
 
     const handleSubmit = () => {
 
+
         setShow(false);
     }
 
@@ -83,7 +84,9 @@ export default function RemoveCategoriesDialog({ show, setShow }) {
                                                 .map( category => (
                                                 <tr
                                                     key={category.id}
-                                                    className={`whitespace-nowrap ${selectedCategories[category.id] ? "hover:bg-gray-300 bg-purple-200 " : "hover:bg-gray-200 bg-white "}`}
+                                                    className={`whitespace-nowrap ${ selectedCategories[category.id] ? 
+                                                        "bg-pink-500 border-pink-500 text-white hover:bg-pink-600 hover:border-pink-600" : 
+                                                        "bg-gray-100 border-gray-200 text-black hover:bg-gray-200 hover:border-gray-300 "}`}
                                                     onClick={() => {handleTableRowClicked(category.id)}}
                                                 >
                                                     <td className="p-2 pl-4">{category.id}</td>
