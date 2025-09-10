@@ -14,6 +14,8 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import NewCategoryDialog from "./NewCategoryDialog.js";
 import EditPlantDialog from "./EditPlantDialog";
 import RemoveCategoriesDialog from "./RemoveCategoriesDialog";
+import TableRowNewPlant from "./InsertPlantRow";
+import InsertPlantButton from "./InsertPlantButton";
 
 // GraphQL Query
 const GET_PLANTS: TypedDocumentNode<GetPlantsQuery> = gql`
@@ -41,47 +43,44 @@ export default function PlantList() {
     // Use Query
     const { loading, error, data, refetch } = useQuery(GET_PLANTS);
 
-
     // TODO - there are way too many different state objects...
-
 
     // State
     const [showNewCategory, setShowNewCategory] = React.useState(false);
     const [showRemoveCategories, setShowRemoveCategories] = React.useState(false);
 
     const [showNewPlant, setShowNewPlant] = React.useState(false);
-    const [insertPlant, setInsertPlant] = React.useState({
-        name: "",
-        cost: "",
-        description: "",
-        image: "",
-        category: ""
-    });
+
 
     // TODO - Combine showEditPlant and editPlantId to 1 object:
     const [showEditPlant, setShowEditPlant] = React.useState(false);
     const [editPlantId, setEditPlantId] = React.useState(null);
 
-    // Derived values
-
-    // Settings
-    const hideBackButton = false
+    const [insertPlant, setInsertPlant] = React.useState({
+        name: "",
+        cost: "",
+        description: "",
+        image: "",
+        category_id: ""
+    });
 
     // Event handlers
-    const handleInput = (event: React.ChangeEvent<HTMLInputElement>)  => {
-        const {name, value} = event.target;
-
-        setInsertPlant(prevState=> ({
-            ...prevState,
-            [name]: value
-        }));
-    }
-
     const handleTableRowClicked = (plantId: string) => {
         setShowEditPlant(true);
         setEditPlantId(plantId)
     }
 
+    const resetInsertPlant = () => {
+        setInsertPlant({
+            name: "",
+            cost: "",
+            description: "",
+            image: "",
+            category_id: ""
+        });
+        setShowNewPlant(false);
+        refetch().then( () => {} );
+    }
 
     const logout = () => {
         alert("Logout is not yet implemented!")
@@ -174,61 +173,11 @@ export default function PlantList() {
                                         </tr>
                                     ))}
                                     { showNewPlant &&
-                                        <tr
-                                            key="new-plant"
-                                        >
-                                            <td></td>
-                                            <td className="p-2">
-                                                <input
-                                                    data-1p-ignore
-                                                    id="insert-plant-name-input"
-                                                    type="text"
-                                                    name="name"
-                                                    value={insertPlant.name}
-                                                    onChange={handleInput}
-                                                />
-                                            </td>
-                                            <td className="p-2">
-                                                <input
-                                                    data-1p-ignore
-                                                    type="text"
-                                                    name="cost"
-                                                    value={insertPlant.cost}
-                                                    onChange={handleInput}
-                                                />
-                                            </td>
-                                            <td className="p-2">
-                                                <input
-                                                    data-1p-ignore
-                                                    type="text"
-                                                    name="description"
-                                                    value={insertPlant.description}
-                                                    onChange={handleInput}
-                                                />
-                                            </td>
-                                            <td className="p-2">
-                                                <input
-                                                    data-1p-ignore
-                                                    type="text"
-                                                    name="image"
-                                                    value={insertPlant.image}
-                                                    onChange={handleInput}
-                                                />
-                                            </td>
-                                            <td className="p-2 pr-4">
-                                                <select
-                                                    name="categories"
-                                                    id="category-select"
-                                                >
-                                                    <option value={null}>--- Select a category ---</option>
-                                                    {
-                                                        data && data.categories.map ( category => (
-                                                            <option key={category.id} value={category.id}>{category.name}</option>
-                                                        ))
-                                                    }
-                                                </select>
-                                            </td>
-                                        </tr>
+                                        <TableRowNewPlant
+                                            categoryList={data.categories}
+                                            insertPlant={insertPlant}
+                                            setInsertPlant={setInsertPlant}
+                                        />
                                     }
                                     </tbody>
                                 </table>
@@ -250,10 +199,11 @@ export default function PlantList() {
                                         className="group/button flex items-center justify-center border transform transition-transform duration-50 active:scale-95 focus:outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-50 bg-gray-100 border-gray-200 text-foreground hover:bg-gray-200 hover:border-gray-300 disabled:bg-gray-100 disabled:border-gray-200 focus-visible:ring-gray-600 h-[42px] py-2 px-3 rounded-md text-base leading-6 space-x-3 cancel-insert-row">
                                         <span className="inline-block">Cancel</span>
                                     </button>
-                                    <button
-                                        className="group/button flex items-center justify-center border transform transition-transform duration-50 active:scale-95 focus:outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-50 bg-pink-500 border-pink-500 text-white hover:bg-pink-600 hover:border-pink-600 disabled:bg-pink-500 disabled:border-pink-500 focus-visible:ring-pink-600 h-[42px] py-2 px-3 rounded-md text-base leading-6 space-x-3 insert-row">
-                                        <span className="inline-block">Insert</span>
-                                    </button>
+
+                                    <InsertPlantButton
+                                        onComplete={() => resetInsertPlant()}
+                                        plant={insertPlant}
+                                    />
                                 </>
                             }
                         </div>

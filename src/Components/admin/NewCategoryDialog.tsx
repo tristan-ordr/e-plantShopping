@@ -27,8 +27,6 @@ export default function NewCategoryDialog({ show, setShow, refetch }) {
     }
 
     const handleSubmit = () => {
-        console.log("submit");
-
         mutate({variables: { name }})
             .then( result => {
                 setName("");

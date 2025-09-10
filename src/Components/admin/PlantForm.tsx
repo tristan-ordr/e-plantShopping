@@ -37,7 +37,7 @@ export default function PlantForm({data, onCancel, onSubmit}) {
     }
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const {name, value, type, checked} = event.target;
+        const {name, value} = event.target;
         setLocalData(prevState => ({
             ...prevState,
             [name] : value
