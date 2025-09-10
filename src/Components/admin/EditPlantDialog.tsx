@@ -10,6 +10,7 @@ import PlantForm from "./PlantForm";
 const GET_PLANT: TypedDocumentNode<GetPlantQuery, GetPlantQueryVariables> = gql`
     query GetPlant($plantId: ID!) {
         plant(id: $plantId) {
+            id
             name
             cost
             description
@@ -27,17 +28,15 @@ const GET_PLANT: TypedDocumentNode<GetPlantQuery, GetPlantQueryVariables> = gql`
 `;
 
 
-export default function EditPlantDialog({show, setShow, plantId, setPlantId }) {
+export default function EditPlantDialog({show, setShow, plantId, setPlantId, refetch }) {
     const { loading, error, data } = useQuery(GET_PLANT, {
         variables: { plantId }
     });
 
-    const handleSubmit = (data) => {
-        console.log("submit");
-        console.log(data);
-
-
-        // setShow(false);
+    const handleSubmit = () => {
+        refetch();
+        setPlantId(null)
+        setShow(false);
     }
 
     const handleClose = () => {

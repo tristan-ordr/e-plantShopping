@@ -5,7 +5,6 @@ import {gql, TypedDocumentNode} from "@apollo/client";
 import {useQuery} from "@apollo/client/react";
 import {GetPlantsQuery} from "../../types/generated/schema";
 
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CachedIcon from '@mui/icons-material/Cached';
 import NewLabelOutlinedIcon from '@mui/icons-material/NewLabelOutlined';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
@@ -268,11 +267,12 @@ export default function PlantList() {
                 setShow={setShowRemoveCategories}
                 refetch={refetch}
             />}
-            {editPlantId && <EditPlantDialog
+            { editPlantId && <EditPlantDialog
                 show={showEditPlant}
                 setShow={setShowEditPlant}
                 plantId={editPlantId}
                 setPlantId={setEditPlantId}
+                refetch={refetch}
             />}
         </div>
     )

@@ -2,18 +2,38 @@ import * as React from 'react';
 import {useState} from "react";
 import FormDialogTextInput from "../forms/FormDialogTextInput";
 import FormDialogSelect from "../forms/FormDialogSelect";
+import {gql} from "@apollo/client";
+import { useMutation } from '@apollo/client/react';
+
+const UPDATE_PLANT = gql`
+    mutation UpdatePlant($id: ID!, $edits: EditPlantInput!) {
+        updatePlant(id: $id, edits: $edits) {
+            id
+            name
+        }
+    }
+`;
+
 
 export default function PlantForm({data, onCancel, onSubmit}) {
+    const [mutate, { loading, error }] = useMutation(UPDATE_PLANT);
+
     const [localData, setLocalData] = useState({
         name: data.plant.name,
         cost: data.plant.cost,
         description: data.plant.description,
         image: data.plant.image,
-        category: data.plant.category.id
+        category_id: data.plant.category.id
     });
 
     const handleSubmit = () => {
-        onSubmit(localData);
+        mutate({variables: {id: data.plant.id, edits: localData}})
+            .then(() => {
+                onSubmit();
+            })
+            .catch(e => {
+                console.log(e);
+            })
     }
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,9 +81,9 @@ export default function PlantForm({data, onCancel, onSubmit}) {
             <FormDialogSelect
                 formLabel="category"
                 inputId="category"
-                inputName="category"
+                inputName="category_id"
                 options={data.categories}
-                selected={localData["category"]}
+                selected={localData["category_id"]}
                 setValue={handleChange}
             />
 
