@@ -10,7 +10,7 @@ const config: CodegenConfig = {
     generates: {
         // Use a path that works the best for the structure of your application
         "./src/types/generated/schema.ts": {
-            plugins: ["typescript", "typescript-operations"],
+            plugins: ["typescript", "typescript-operations", "typed-document-node"],
             config: {
                 avoidOptionals: {
                     // Use `null` for nullable fields instead of optionals
