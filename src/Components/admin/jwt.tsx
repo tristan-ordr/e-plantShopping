@@ -7,6 +7,11 @@ export function setJwtToken(token: string) {
     sessionStorage.setItem("jwt", token)
 }
 
+export function removeJwtToken() {
+    sessionStorage.removeItem("jwt");
+}
+
+
 // Longer duration refresh token (30-60 min)
 export function getRefreshToken() {
     return sessionStorage.getItem("refreshToken") || ""
@@ -14,4 +19,8 @@ export function getRefreshToken() {
 
 export function setRefreshToken(token: string) {
     sessionStorage.setItem("refreshToken", token)
+}
+
+export function removeRefreshToken() {
+    sessionStorage.removeItem("refreshToken");
 }
