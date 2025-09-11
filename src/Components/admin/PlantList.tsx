@@ -185,20 +185,17 @@ export default function PlantList() {
             { showNewCategory && <NewCategoryDialog
                 show={showNewCategory}
                 setShow={setShowNewCategory}
-                refetch={refetch}
             />}
             { data && showRemoveCategories && <RemoveCategoriesDialog
                 categories={data.categories}
                 show={showRemoveCategories}
                 setShow={setShowRemoveCategories}
-                refetch={refetch}
             />}
             { editPlantId && <EditPlantDialog
                 show={showEditPlant}
                 setShow={setShowEditPlant}
                 plantId={editPlantId}
                 setPlantId={setEditPlantId}
-                refetch={refetch}
             />}
         </div>
     </>)

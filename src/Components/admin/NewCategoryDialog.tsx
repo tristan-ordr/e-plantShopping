@@ -17,10 +17,14 @@ const INSERT_CATEGORY: TypedDocumentNode<InsertCategoryMutation, InsertCategoryM
 `;
 
 
-export default function NewCategoryDialog({ show, setShow, refetch }) {
+export default function NewCategoryDialog({ show, setShow }) {
     const [name, setName] = useState("")
 
-    const [mutate, {data, loading, error}] = useMutation(INSERT_CATEGORY)
+    const [mutate, { error }] = useMutation(INSERT_CATEGORY, {
+        refetchQueries: [
+            "GetPlants"
+        ]
+    })
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setName(event.target.value)
@@ -28,9 +32,8 @@ export default function NewCategoryDialog({ show, setShow, refetch }) {
 
     const handleSubmit = () => {
         mutate({variables: { name }})
-            .then( result => {
+            .then( _ => {
                 setName("");
-                refetch();
                 setShow(false);
             })
             .catch(e => {

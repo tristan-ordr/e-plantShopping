@@ -2,12 +2,11 @@ import * as React from "react";
 
 import Dialog from "@mui/material/Dialog";
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
-import {ApolloClient, gql} from "@apollo/client";
+import { gql } from "@apollo/client";
 import {useMutation} from "@apollo/client/react";
 import {useState} from "react";
 import CategorySelector from "./CategorySelector";
-import {GetPlantsQuery} from "../../types/generated/schema";
-import {GetPlantsCategoriesInterface} from "./PlantList";
+import {GetPlantsQueryCategories} from "./PlantList";
 
 // GraphQL Queries
 const DELETE_CATEGORIES = gql`
@@ -20,9 +19,13 @@ const DELETE_CATEGORIES = gql`
 
 
 export default function RemoveCategoriesDialog(props: RemoveCategoriesDialogProps) {
-    const { categories, show, setShow, refetch } = props;
+    const { categories, show, setShow } = props;
 
-    const [ mutate ] = useMutation(DELETE_CATEGORIES);
+    const [ mutate ] = useMutation(DELETE_CATEGORIES, {
+        refetchQueries: [
+            "GetPlants"
+        ]
+    });
 
     const [selectedCategories, setSelectedCategories] = useState({});
 
@@ -34,9 +37,7 @@ export default function RemoveCategoriesDialog(props: RemoveCategoriesDialogProp
         mutate({ variables: { ids }})
             .then( _ => {
                 setSelectedCategories({});
-                refetch().then( _ => {
-                    setShow(false);
-                });
+                setShow(false);
             })
             .catch(e => {
                 console.log(e)
@@ -84,10 +85,7 @@ export default function RemoveCategoriesDialog(props: RemoveCategoriesDialogProp
 }
 
 interface RemoveCategoriesDialogProps {
-    categories: GetPlantsCategoriesInterface[]
+    categories: GetPlantsQueryCategories[]
     show: boolean
     setShow: React.Dispatch<React.SetStateAction<boolean>>
-    refetch:  (variables?: Partial<{
-        [p: string]: any
-    }>) => Promise<ApolloClient.QueryResult<GetPlantsQuery>>
 }

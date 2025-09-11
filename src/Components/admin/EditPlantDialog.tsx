@@ -29,20 +29,18 @@ const GET_PLANT: TypedDocumentNode<GetPlantQuery, GetPlantQueryVariables> = gql`
 `;
 
 
-export default function EditPlantDialog({show, setShow, plantId, setPlantId, refetch }) {
+export default function EditPlantDialog({show, setShow, plantId, setPlantId }) {
     const { loading, error, data } = useQuery(GET_PLANT, {
         variables: { plantId }
     });
 
     const handleSubmit = () => {
-        refetch();
         setPlantId(null)
         setShow(false);
     }
 
     const handleClose = () => {
-        setPlantId(null)
-        setShow(false);
+
     }
 
     return (
@@ -58,13 +56,10 @@ export default function EditPlantDialog({show, setShow, plantId, setPlantId, ref
                         <h1 className="text-xl font-semibold align-middle">Edit plant</h1>
                         <DeletePlantButton
                             plantId={plantId}
-                            onComplete={() => {
-                                refetch();
-                                handleClose();
-                            }}
+                            setPlantId={setPlantId}
+                            setShowDialog={setShow}
                         />
                     </div>
-
                     {
                         loading && <p>Loading...</p>
                     }

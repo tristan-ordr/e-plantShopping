@@ -11,13 +11,18 @@ const DELETE_PLANT = gql`
     }
 `;
 
-export default function DeletePlantButton({plantId, onComplete}) {
-    const [mutate, {data, loading, error}] = useMutation(DELETE_PLANT)
+export default function DeletePlantButton({plantId, setPlantId, setShowDialog}) {
+    const [mutate] = useMutation(DELETE_PLANT, {
+        refetchQueries: [
+            "GetPlants"
+        ]
+    })
 
     const onDelete = () => {
         mutate({variables: {id: plantId}})
-            .then(result => {
-                onComplete()
+            .then( _ => {
+                setPlantId(null)
+                setShowDialog(false);
             })
             .catch(e => {
                 console.log(e)
