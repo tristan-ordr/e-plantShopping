@@ -16,5 +16,5 @@ export interface CartItemInterface {
 
 export interface AuthStateInterface {
     token: string
-    refreshToken: string
+    refresh: string
 }

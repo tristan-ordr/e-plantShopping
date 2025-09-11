@@ -3,7 +3,7 @@ import {AuthStateInterface} from "./types/State";
 
 const initialState: AuthStateInterface = {
     token: '',
-    refreshToken: ''
+    refresh: ''
 }
 
 export const AuthSlice = createSlice({
@@ -11,14 +11,14 @@ export const AuthSlice = createSlice({
     initialState,
     reducers: {
         addTokens: (state, action) => {
-            const { token, refreshToken } = action.payload;
+            const { token, refresh } = action.payload;
 
             state.token = token;
-            state.refreshToken = refreshToken;
+            state.refresh = refresh;
         },
         removeTokens: (state, action) => {
             state.token = null;
-            state.refreshToken = null;
+            state.refresh = null;
         },
         refresh: (state, action) => {
             const { newToken } = action.payload;
