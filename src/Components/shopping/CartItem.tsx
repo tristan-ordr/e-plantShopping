@@ -1,11 +1,12 @@
-import React from 'react';
+import * as React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import './CartItem.css';
-import {removeItem, updateQuantity} from "../../CartSlice.jsx";
 import {Link} from "react-router";
+import {removeItem, updateQuantity} from "../../CartSlice";
+import {StateHolderInterface} from "../../types/State";
 
-const CartItem = ({ onContinueShopping }) => {
-  const cart = useSelector(state => state.cart.items);
+const CartItem = () => {
+  const cart = useSelector((state: StateHolderInterface) => state.cart.items);
   const dispatch = useDispatch();
 
   // Calculate total amount for all products in the cart
