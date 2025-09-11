@@ -83,7 +83,7 @@ export default function PlantList() {
     }
 
     const logout = () => {
-        alert("Logout is not yet implemented!")
+
     }
 
     // useEffect for interacting with the DOM:

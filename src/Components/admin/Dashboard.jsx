@@ -1,6 +1,6 @@
 import React from 'react';
 import Login from "./Login.jsx";
-import { NavLink, Outlet } from "react-router";
+import { Outlet } from "react-router";
 import { useAuth } from "../../context/auth.jsx"
 
 
