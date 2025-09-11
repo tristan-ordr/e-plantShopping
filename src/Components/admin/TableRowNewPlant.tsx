@@ -1,6 +1,9 @@
 import * as React from "react";
+import {GetPlantsQueryCategories, PlantInputInterface} from "./PlantList";
 
-export default function TableRowNewPlant({categoryList, insertPlant, setInsertPlant}) {
+export default function TableRowNewPlant(props: TableRowNewPlantProps) {
+    const {categoryList, insertPlant, setInsertPlant} = props;
+
     const updatePlant = (key: string, value: string)=>  {
         setInsertPlant(prevState=> ({
             ...prevState,
@@ -82,4 +85,10 @@ export default function TableRowNewPlant({categoryList, insertPlant, setInsertPl
             </td>
         </tr>
     )
+}
+
+interface TableRowNewPlantProps {
+    categoryList: Array<GetPlantsQueryCategories>
+    insertPlant: PlantInputInterface
+    setInsertPlant: React.Dispatch<React.SetStateAction<PlantInputInterface>>
 }

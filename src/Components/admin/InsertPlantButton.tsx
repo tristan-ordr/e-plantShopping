@@ -1,22 +1,22 @@
 import * as React from "react";
-import {gql} from "@apollo/client";
+import {gql, TypedDocumentNode} from "@apollo/client";
 import {useMutation} from "@apollo/client/react";
+import {InsertPlantMutation} from "../../types/generated/schema";
 
-const INSERT_PLANT = gql`
+const INSERT_PLANT: TypedDocumentNode<InsertPlantMutation> = gql`
     mutation InsertPlant($plant: PlantInput!) {
         createPlant(plant: $plant) {
             id
-            name
         }
     }
 `;
 
 export default function InsertPlantButton({plant, onComplete}) {
-    const [mutate, {data, loading, error}] = useMutation(INSERT_PLANT)
+    const [ mutate ] = useMutation(INSERT_PLANT)
 
     const insertPlant = () => {
         mutate({variables: {plant}})
-            .then(result => {
+            .then( _ => {
                 onComplete()
             })
             .catch(e => {

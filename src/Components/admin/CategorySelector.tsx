@@ -1,7 +1,10 @@
 import * as React from "react";
+import {GetPlantsCategoriesInterface, GetPlantsQueryCategories} from "./PlantList";
 
-export default function CategorySelector({categories, selectedCategories, setSelectedCategories }) {
-    const handleTableRowClicked = (categoryId: number) => {
+export default function CategorySelector(props: CategorySelectorProps) {
+    const {categories, selectedCategories, setSelectedCategories } = props;
+
+    const handleTableRowClicked = (categoryId: string) => {
         setSelectedCategories( (prevState: {}) => ({
             ...prevState,
             [categoryId]: !prevState[categoryId]
@@ -32,8 +35,8 @@ export default function CategorySelector({categories, selectedCategories, setSel
                             <tbody>
                             {
                                 categories
-                                    .filter( (category ) => category.plants.length < 1)
-                                    .map( category => (
+                                    .filter( (category: GetPlantsCategoriesInterface ) => category.plants.length < 1)
+                                    .map( (category: GetPlantsCategoriesInterface )=> (
                                         <tr
                                             key={category.id}
                                             className={`whitespace-nowrap ${ selectedCategories[category.id] ?
@@ -54,4 +57,10 @@ export default function CategorySelector({categories, selectedCategories, setSel
             }
         </>
     )
+}
+
+interface CategorySelectorProps {
+    categories: Array<GetPlantsQueryCategories>,
+    selectedCategories: {}
+    setSelectedCategories: React.Dispatch<React.SetStateAction<{}>>
 }

@@ -12,7 +12,7 @@ import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined
 import NewCategoryDialog from "./NewCategoryDialog.js";
 import EditPlantDialog from "./EditPlantDialog";
 import RemoveCategoriesDialog from "./RemoveCategoriesDialog";
-import TableRowNewPlant from "./InsertPlantRow";
+import TableRowNewPlant from "./TableRowNewPlant";
 import InsertPlantButton from "./InsertPlantButton";
 
 // GraphQL Query
@@ -35,17 +35,6 @@ const GET_PLANTS: TypedDocumentNode<GetPlantsQuery> = gql`
         }
     }
 `;
-
-export interface GetPlantsCategoriesData {
-    __typename: "Category"
-    id: string
-    name: string
-    plants: Array<{
-        __typename: "Plant"
-        id: string
-    }> | null
-}
-
 
 
 export default function PlantList() {
@@ -226,3 +215,10 @@ export default function PlantList() {
         </div>
     </>)
 }
+
+
+export interface PlantInputInterface {name: string, cost: string, description: string, image: string, category_id: string}
+
+// Copied from the generated schema.ts file for convenience:
+// export type GetPlantsQueryPlants = { __typename: 'Plant', id: string, name: string, cost: string | null, description: string | null, image: string | null, category: { __typename: 'Category', name: string } }
+export type GetPlantsQueryCategories = { __typename: 'Category', id: string, name: string, plants: Array<{ __typename: 'Plant', id: string }> | null }

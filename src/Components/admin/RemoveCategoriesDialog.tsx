@@ -6,8 +6,8 @@ import {ApolloClient, gql} from "@apollo/client";
 import {useMutation} from "@apollo/client/react";
 import {useState} from "react";
 import CategorySelector from "./CategorySelector";
-import {GetPlantsCategoriesData} from "./PlantList";
 import {GetPlantsQuery} from "../../types/generated/schema";
+import {GetPlantsCategoriesInterface} from "./PlantList";
 
 // GraphQL Queries
 const DELETE_CATEGORIES = gql`
@@ -84,7 +84,7 @@ export default function RemoveCategoriesDialog(props: RemoveCategoriesDialogProp
 }
 
 interface RemoveCategoriesDialogProps {
-    categories: GetPlantsCategoriesData[]
+    categories: GetPlantsCategoriesInterface[]
     show: boolean
     setShow: React.Dispatch<React.SetStateAction<boolean>>
     refetch:  (variables?: Partial<{
