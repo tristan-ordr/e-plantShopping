@@ -36,6 +36,14 @@ const GET_PLANTS: TypedDocumentNode<GetPlantsQuery> = gql`
     }
 `;
 
+export interface ModalType {}
+export interface NewCategoryModalType extends ModalType {}
+export interface RemoveCategoriesModalType extends ModalType {}
+export interface EditPlantModalType extends ModalType {
+    plantId: string
+}
+
+
 
 export default function PlantList() {
     // Use Query
@@ -44,16 +52,16 @@ export default function PlantList() {
     // TODO - there are way too many different state objects...
 
     // State
+    const [plantListState, setPlantListState] = React.useState({
+        "showModal": null,
+    })
     const [showNewCategory, setShowNewCategory] = React.useState(false);
     const [showRemoveCategories, setShowRemoveCategories] = React.useState(false);
-
-    const [showNewPlant, setShowNewPlant] = React.useState(false);
-
-
-    // TODO - Combine showEditPlant and editPlantId to 1 object:
     const [showEditPlant, setShowEditPlant] = React.useState(false);
     const [editPlantId, setEditPlantId] = React.useState(null);
 
+
+    const [showInsertPlant, setShowInsertPlant] = React.useState(false);
     const [insertPlant, setInsertPlant] = React.useState({
         name: "",
         cost: "",
@@ -70,14 +78,14 @@ export default function PlantList() {
 
     // useEffect for interacting with the DOM:
     useEffect( () => {
-        if (showNewPlant) {
+        if (showInsertPlant) {
             const divElement = document.getElementById('plant-data-grid');
             divElement.scrollTop = divElement.scrollHeight + 40;
 
             const nameInput = document.getElementById('insert-plant-name-input')
             nameInput.focus();
         }
-    }, [showNewPlant])
+    }, [showInsertPlant])
 
     return (<>
         <div className="relative flex items-center justify-center">
@@ -145,7 +153,7 @@ export default function PlantList() {
                                 <td className="p-2 pr-4">{plant.category.name}</td>
                             </tr>
                         ))}
-                        { showNewPlant &&
+                        { showInsertPlant &&
                             <TableRowNewPlant
                                 categoryList={data.categories}
                                 insertPlant={insertPlant}
@@ -158,17 +166,17 @@ export default function PlantList() {
 
             </div>
             <div className="space-x-3 flex justify-end pt-2">
-                { !showNewPlant &&
+                { !showInsertPlant &&
                     <button
-                        onClick={() => {setShowNewPlant(true)}}
+                        onClick={() => {setShowInsertPlant(true)}}
                         className="group/button flex items-center justify-center border transform transition-transform duration-50 active:scale-95 focus:outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-50 bg-transparent border-pink-200 text-pink-500 dark:text-pink-700 hover:bg-pink-100 hover:border-pink-200 disabled:bg-transparent disabled:border-pink-200 disabled:text-pink-700 focus-visible:ring-pink-600 focus-visible:bg-pink-100 h-[34px] py-1.5 px-3 rounded-md text-sm leading-5 space-x-2 add-row mb-3">
                         <span className="inline-block">Add plant</span>
                     </button>
                 }
-                {showNewPlant &&
+                {showInsertPlant &&
                     <>
                         <button
-                            onClick={() => setShowNewPlant(false)}
+                            onClick={() => setShowInsertPlant(false)}
                             className="group/button flex items-center justify-center border transform transition-transform duration-50 active:scale-95 focus:outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-50 bg-gray-100 border-gray-200 text-foreground hover:bg-gray-200 hover:border-gray-300 disabled:bg-gray-100 disabled:border-gray-200 focus-visible:ring-gray-600 h-[42px] py-2 px-3 rounded-md text-base leading-6 space-x-3 cancel-insert-row">
                             <span className="inline-block">Cancel</span>
                         </button>
@@ -176,7 +184,7 @@ export default function PlantList() {
                         <InsertPlantButton
                             plant={insertPlant}
                             setInsertPlant={setInsertPlant}
-                            setShowNewPlant={setShowNewPlant}
+                            setShowNewPlant={setShowInsertPlant}
                         />
                     </>
                 }
