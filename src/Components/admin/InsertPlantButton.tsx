@@ -11,13 +11,24 @@ const INSERT_PLANT: TypedDocumentNode<InsertPlantMutation> = gql`
     }
 `;
 
-export default function InsertPlantButton({plant, onComplete}) {
-    const [ mutate ] = useMutation(INSERT_PLANT)
+export default function InsertPlantButton({plant, setInsertPlant, setShowNewPlant}) {
+    const [ mutate ] = useMutation(INSERT_PLANT, {
+       refetchQueries: [
+           "GetPlants"
+       ]
+    });
 
     const insertPlant = () => {
         mutate({variables: {plant}})
             .then( _ => {
-                onComplete()
+                setInsertPlant({
+                    name: "",
+                    cost: "",
+                    description: "",
+                    image: "",
+                    category_id: ""
+                });
+                setShowNewPlant(false);
             })
             .catch(e => {
                 console.log(e)

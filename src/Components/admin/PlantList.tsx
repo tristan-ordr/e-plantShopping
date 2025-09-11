@@ -68,19 +68,6 @@ export default function PlantList() {
         setEditPlantId(plantId)
     }
 
-    const resetInsertPlant = () => {
-        setInsertPlant({
-            name: "",
-            cost: "",
-            description: "",
-            image: "",
-            category_id: ""
-        });
-        setShowNewPlant(false);
-        refetch().then( () => {} );
-    }
-
-
     // useEffect for interacting with the DOM:
     useEffect( () => {
         if (showNewPlant) {
@@ -187,8 +174,9 @@ export default function PlantList() {
                         </button>
 
                         <InsertPlantButton
-                            onComplete={() => resetInsertPlant()}
                             plant={insertPlant}
+                            setInsertPlant={setInsertPlant}
+                            setShowNewPlant={setShowNewPlant}
                         />
                     </>
                 }
