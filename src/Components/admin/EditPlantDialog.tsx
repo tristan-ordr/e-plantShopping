@@ -7,6 +7,7 @@ import {GetPlantQuery, GetPlantQueryVariables} from "../../types/generated/schem
 
 import PlantForm from "./PlantForm";
 import DeletePlantButton from "./DeletePlantButton";
+import {DashboardModalState} from "./Dashboard";
 
 const GET_PLANT: TypedDocumentNode<GetPlantQuery, GetPlantQueryVariables> = gql`
     query GetPlant($plantId: ID!) {
@@ -29,25 +30,22 @@ const GET_PLANT: TypedDocumentNode<GetPlantQuery, GetPlantQueryVariables> = gql`
 `;
 
 
-export default function EditPlantDialog({show, setShow, plantId, setPlantId }) {
+export default function EditPlantDialog(props: EditPlantDialogProps) {
+    const { modalState, setModalState } = props
+
     const { loading, error, data } = useQuery(GET_PLANT, {
-        variables: { plantId }
+        variables: { plantId: modalState.modalData.plantId }
     });
 
-    const handleSubmit = () => {
-        setPlantId(null)
-        setShow(false);
-    }
-
-    const handleClose = () => {
-
+    const closeModal = () => {
+        setModalState( (prevState: DashboardModalState) => ({ ...prevState, modalType: null, modalData: { plantId: null }}))
     }
 
     return (
         <Drawer
             anchor="right"
-            open={show}
-            onClose={handleClose}
+            open={modalState.modalType === "edit_plant"}
+            onClose={closeModal}
         >
             <div
                 className="w-full max-h-screen focus:outline-none relative p-8 bg-background dark:bg-secondaryBg rounded-xl overflow-y-auto md:w-[520px]">
@@ -55,9 +53,8 @@ export default function EditPlantDialog({show, setShow, plantId, setPlantId }) {
                     <div className="flex flex-row mb-1 justify-between align-center">
                         <h1 className="text-xl font-semibold align-middle">Edit plant</h1>
                         <DeletePlantButton
-                            plantId={plantId}
-                            setPlantId={setPlantId}
-                            setShowDialog={setShow}
+                            modalState={modalState}
+                            setModalState={setModalState}
                         />
                     </div>
                     {
@@ -69,12 +66,16 @@ export default function EditPlantDialog({show, setShow, plantId, setPlantId }) {
                     { data && (<>
                         <PlantForm
                             data={data}
-                            onCancel={handleClose}
-                            onSubmit={handleSubmit}
+                            closeModal={closeModal}
                         />
                     </>)}
                 </div>
             </div>
         </Drawer>
     )
+}
+
+interface EditPlantDialogProps {
+    modalState: DashboardModalState
+    setModalState:  React.Dispatch<React.SetStateAction<DashboardModalState>>
 }

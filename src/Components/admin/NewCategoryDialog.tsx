@@ -6,6 +6,7 @@ import FormDialogTextInput from "../forms/FormDialogTextInput";
 import {gql, TypedDocumentNode} from "@apollo/client";
 import { useMutation } from "@apollo/client/react";
 import {InsertCategoryMutation, InsertCategoryMutationVariables} from "../../types/generated/schema";
+import {DashboardModalState} from "./Dashboard";
 
 const INSERT_CATEGORY: TypedDocumentNode<InsertCategoryMutation, InsertCategoryMutationVariables> = gql`
     mutation InsertCategory($name: String!) {
@@ -17,7 +18,8 @@ const INSERT_CATEGORY: TypedDocumentNode<InsertCategoryMutation, InsertCategoryM
 `;
 
 
-export default function NewCategoryDialog({ show, setShow }) {
+export default function NewCategoryDialog(props: NewCategoryDialogProps) {
+    const { modalState, setModalState } = props;
     const [name, setName] = useState("")
 
     const [mutate, { error }] = useMutation(INSERT_CATEGORY, {
@@ -34,7 +36,7 @@ export default function NewCategoryDialog({ show, setShow }) {
         mutate({variables: { name }})
             .then( _ => {
                 setName("");
-                setShow(false);
+                setModalState((prevState: DashboardModalState) => ({...prevState, modalType: null}));
             })
             .catch(e => {
                 console.log(e);
@@ -42,11 +44,11 @@ export default function NewCategoryDialog({ show, setShow }) {
     }
 
     const handleClose = () => {
-        setShow(false);
+        setModalState((prevState: DashboardModalState) => ({...prevState, modalType: null}));
     };
     return (
         <Dialog
-            open={show}
+            open={modalState.modalType === "new_category"}
             onClose={handleClose}>
             <div
                 className="w-full max-h-screen focus:outline-none relative p-8 bg-background dark:bg-secondaryBg rounded-xl overflow-y-auto md:w-[520px]">
@@ -81,4 +83,9 @@ export default function NewCategoryDialog({ show, setShow }) {
             </div>
         </Dialog>
     )
+}
+
+interface NewCategoryDialogProps {
+    modalState: DashboardModalState
+    setModalState:  React.Dispatch<React.SetStateAction<DashboardModalState>>
 }

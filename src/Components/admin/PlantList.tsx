@@ -14,6 +14,7 @@ import EditPlantDialog from "./EditPlantDialog";
 import RemoveCategoriesDialog from "./RemoveCategoriesDialog";
 import TableRowNewPlant from "./TableRowNewPlant";
 import InsertPlantButton from "./InsertPlantButton";
+import {DashboardModalState} from "./Dashboard";
 
 // GraphQL Query
 const GET_PLANTS: TypedDocumentNode<GetPlantsQuery> = gql`
@@ -36,30 +37,18 @@ const GET_PLANTS: TypedDocumentNode<GetPlantsQuery> = gql`
     }
 `;
 
-export interface ModalType {}
-export interface NewCategoryModalType extends ModalType {}
-export interface RemoveCategoriesModalType extends ModalType {}
-export interface EditPlantModalType extends ModalType {
-    plantId: string
-}
-
-
-
 export default function PlantList() {
     // Use Query
     const { loading, error, data, refetch } = useQuery(GET_PLANTS);
 
-    // TODO - there are way too many different state objects...
-
     // State
-    const [plantListState, setPlantListState] = React.useState({
-        "showModal": null,
-    })
-    const [showNewCategory, setShowNewCategory] = React.useState(false);
-    const [showRemoveCategories, setShowRemoveCategories] = React.useState(false);
-    const [showEditPlant, setShowEditPlant] = React.useState(false);
-    const [editPlantId, setEditPlantId] = React.useState(null);
-
+    const initialModalState: DashboardModalState = {
+        modalType: null,
+        modalData: {
+            plantId: null
+        }
+    }
+    const [modal, setModal] = React.useState(initialModalState);
 
     const [showInsertPlant, setShowInsertPlant] = React.useState(false);
     const [insertPlant, setInsertPlant] = React.useState({
@@ -72,8 +61,13 @@ export default function PlantList() {
 
     // Event handlers
     const handleTableRowClicked = (plantId: string) => {
-        setShowEditPlant(true);
-        setEditPlantId(plantId)
+        setModal( (prevState: DashboardModalState) => ({
+            ...prevState,
+            modalType: "edit_plant",
+            modalData: {
+                plantId: plantId
+            }
+        }));
     }
 
     // useEffect for interacting with the DOM:
@@ -100,14 +94,14 @@ export default function PlantList() {
                     <CachedIcon/>
                 </button>
                 <button
-                    onClick={()=> setShowNewCategory(true)}
+                    onClick={()=> setModal(prevState => ({...prevState, modalType: "new_category"}))}
                     className="group/button flex items-center justify-center border transform transition-transform duration-50 active:scale-95 focus:outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-50 bg-transparent border-transparent dark:text-pink-700 hover:bg-pink-100 hover:border-pink-100 disabled:bg-transparent disabled:border-transparent focus-visible:ring-pink-600 focus-visible:bg-pink-100 h-[34px] py-1.5 px-3 rounded-md text-sm leading-5 space-x-2 text-pink-500"
                     title="Add category">
                     <NewLabelOutlinedIcon className="mb-[2px] mr-[2px]"/>
                     Add category
                 </button>
                 { data && data.categories.length > 1 && <button
-                    onClick={()=> setShowRemoveCategories(true)}
+                    onClick={()=> setModal(prevState => ({...prevState, modalType: "remove_categories"}))}
                     className="group/button flex items-center justify-center border transform transition-transform duration-50 active:scale-95 focus:outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-50 bg-transparent border-transparent dark:text-pink-700 hover:bg-pink-100 hover:border-pink-100 disabled:bg-transparent disabled:border-transparent focus-visible:ring-pink-600 focus-visible:bg-pink-100 h-[34px] py-1.5 px-3 rounded-md text-sm leading-5 space-x-2 text-pink-500"
                     title="Delete categories">
                         <DeleteForeverOutlinedIcon className="mb-[2px] mr-[2px]"/>
@@ -190,21 +184,19 @@ export default function PlantList() {
                 }
 
             </div>
-            { showNewCategory && <NewCategoryDialog
-                show={showNewCategory}
-                setShow={setShowNewCategory}
-            />}
-            { data && showRemoveCategories && <RemoveCategoriesDialog
+            { modal.modalType === "new_category" && <NewCategoryDialog
+                modalState={modal}
+                setModalState={setModal}
+            /> }
+            { data && modal.modalType === "remove_categories" && <RemoveCategoriesDialog
                 categories={data.categories}
-                show={showRemoveCategories}
-                setShow={setShowRemoveCategories}
-            />}
-            { editPlantId && <EditPlantDialog
-                show={showEditPlant}
-                setShow={setShowEditPlant}
-                plantId={editPlantId}
-                setPlantId={setEditPlantId}
-            />}
+                modalState={modal}
+                setModalState={setModal}
+            /> }
+            {  modal.modalType === "edit_plant" && <EditPlantDialog
+                modalState={modal}
+                setModalState={setModal}
+            /> }
         </div>
     </>)
 }
@@ -213,5 +205,4 @@ export default function PlantList() {
 export interface PlantInputInterface {name: string, cost: string, description: string, image: string, category_id: string}
 
 // Copied from the generated schema.ts file for convenience:
-// export type GetPlantsQueryPlants = { __typename: 'Plant', id: string, name: string, cost: string | null, description: string | null, image: string | null, category: { __typename: 'Category', name: string } }
 export type GetPlantsQueryCategories = { __typename: 'Category', id: string, name: string, plants: Array<{ __typename: 'Plant', id: string }> | null }

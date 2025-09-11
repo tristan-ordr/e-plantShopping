@@ -6,7 +6,8 @@ import { gql } from "@apollo/client";
 import {useMutation} from "@apollo/client/react";
 import {useState} from "react";
 import CategorySelector from "./CategorySelector";
-import {GetPlantsQueryCategories} from "./PlantList";
+import { GetPlantsQueryCategories } from "./PlantList";
+import {DashboardModalState} from "./Dashboard";
 
 // GraphQL Queries
 const DELETE_CATEGORIES = gql`
@@ -19,7 +20,7 @@ const DELETE_CATEGORIES = gql`
 
 
 export default function RemoveCategoriesDialog(props: RemoveCategoriesDialogProps) {
-    const { categories, show, setShow } = props;
+    const { categories, modalState, setModalState } = props;
 
     const [ mutate ] = useMutation(DELETE_CATEGORIES, {
         refetchQueries: [
@@ -37,7 +38,7 @@ export default function RemoveCategoriesDialog(props: RemoveCategoriesDialogProp
         mutate({ variables: { ids }})
             .then( _ => {
                 setSelectedCategories({});
-                setShow(false);
+                setModalState( (prevState: DashboardModalState) => ({...prevState, modalType: null}));
             })
             .catch(e => {
                 console.log(e)
@@ -45,12 +46,12 @@ export default function RemoveCategoriesDialog(props: RemoveCategoriesDialogProp
     }
 
     const handleClose = () => {
-        setShow(false);
+        setModalState( (prevState: DashboardModalState)=> ({...prevState, modalType: null}));
     };
 
     return (
         <Dialog
-            open={show}
+            open={modalState.modalType === "remove_categories"}
             onClose={handleClose}>
             <div
                 className="w-full max-h-screen focus:outline-none relative p-8 bg-background dark:bg-secondaryBg rounded-xl overflow-y-auto md:w-[520px]">
@@ -86,6 +87,6 @@ export default function RemoveCategoriesDialog(props: RemoveCategoriesDialogProp
 
 interface RemoveCategoriesDialogProps {
     categories: GetPlantsQueryCategories[]
-    show: boolean
-    setShow: React.Dispatch<React.SetStateAction<boolean>>
+    modalState: DashboardModalState
+    setModalState:  React.Dispatch<React.SetStateAction<DashboardModalState>>
 }
