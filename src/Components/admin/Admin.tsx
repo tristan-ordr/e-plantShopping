@@ -1,15 +1,12 @@
 import * as React from 'react';
-import Login from "./Login.js";
 import { Outlet } from "react-router";
-import { useAuth } from "../../context/auth.jsx"
 
-
-// Import everything needed to use the `useQuery` hook
 import {ApolloClient, HttpLink, InMemoryCache} from "@apollo/client";
 import {ApolloProvider} from "@apollo/client/react";
 import {useSelector} from "react-redux";
-import {StateHolderInterface} from "../../types/State";
 
+import Login from "./Login.js";
+import {StateHolderInterface} from "../../types/State";
 
 
 export default function Admin() {

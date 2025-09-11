@@ -2,10 +2,12 @@ import * as React from "react";
 
 import Dialog from "@mui/material/Dialog";
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
-import {gql} from "@apollo/client";
-import {useMutation, useQuery} from "@apollo/client/react";
+import {ApolloClient, gql} from "@apollo/client";
+import {useMutation} from "@apollo/client/react";
 import {useState} from "react";
 import CategorySelector from "./CategorySelector";
+import {GetPlantsCategoriesData} from "./PlantList";
+import {GetPlantsQuery} from "../../types/generated/schema";
 
 // GraphQL Queries
 const DELETE_CATEGORIES = gql`
@@ -17,8 +19,10 @@ const DELETE_CATEGORIES = gql`
 `;
 
 
-export default function RemoveCategoriesDialog({ categories, show, setShow, refetch }) {
-    const [mutate, { data, loading, error} ] = useMutation(DELETE_CATEGORIES);
+export default function RemoveCategoriesDialog(props: RemoveCategoriesDialogProps) {
+    const { categories, show, setShow, refetch } = props;
+
+    const [ mutate ] = useMutation(DELETE_CATEGORIES);
 
     const [selectedCategories, setSelectedCategories] = useState({});
 
@@ -28,10 +32,11 @@ export default function RemoveCategoriesDialog({ categories, show, setShow, refe
             .flatMap(([id, selected]) => selected ? id : [])
 
         mutate({ variables: { ids }})
-            .then( result => {
+            .then( _ => {
                 setSelectedCategories({});
-                refetch();
-                setShow(false);
+                refetch().then( _ => {
+                    setShow(false);
+                });
             })
             .catch(e => {
                 console.log(e)
@@ -76,4 +81,13 @@ export default function RemoveCategoriesDialog({ categories, show, setShow, refe
             </div>
         </Dialog>
     )
+}
+
+interface RemoveCategoriesDialogProps {
+    categories: GetPlantsCategoriesData[]
+    show: boolean
+    setShow: React.Dispatch<React.SetStateAction<boolean>>
+    refetch:  (variables?: Partial<{
+        [p: string]: any
+    }>) => Promise<ApolloClient.QueryResult<GetPlantsQuery>>
 }

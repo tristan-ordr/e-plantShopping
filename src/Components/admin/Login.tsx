@@ -1,24 +1,19 @@
 import * as React from 'react';
-import {useState} from 'react';
+import {ChangeEvent, useState} from 'react';
 import axios from "axios";
-import {useDispatch, useSelector} from "react-redux";
-import {StateHolderInterface} from "../../types/State";
+import {useDispatch} from "react-redux";
 import {addTokens} from "../../AuthSlice";
-
-// import { useAuth } from "../../context/auth.jsx"
 
 
 export default function Login() {
-    // const { setAuthorization } = useAuth();
     const dispatch = useDispatch();
-
 
     const [user, setUser] = useState({
         'username': '',
         'password': ''
     });
 
-    const handleChange = (event) => {
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         const {name, value} = event.target;
         setUser(prevState=> ({
             ...prevState,
@@ -26,7 +21,7 @@ export default function Login() {
         }));
     }
 
-    const handleSubmit = (event) => {
+    const handleSubmit = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.preventDefault();
 
         axios.post('http://localhost:4000/login', {
@@ -34,7 +29,6 @@ export default function Login() {
             password: user.password
         }).then ( res => {
             if (res.status === 200) {
-                console.log("login success");
                 dispatch(addTokens({
                     'token': res.data['accessToken'],
                     'refresh': res.data['refreshToken']

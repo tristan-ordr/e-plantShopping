@@ -1,12 +1,10 @@
 import * as React from "react";
 
 export default function TableRowNewPlant({categoryList, insertPlant, setInsertPlant}) {
-    const handleInput = (event)  => {
-        const {name, value} = event.target;
-
+    const updatePlant = (key: string, value: string)=>  {
         setInsertPlant(prevState=> ({
             ...prevState,
-            [name]: value
+            [key]: value
         }));
     }
 
@@ -22,7 +20,9 @@ export default function TableRowNewPlant({categoryList, insertPlant, setInsertPl
                     type="text"
                     name="name"
                     value={insertPlant.name}
-                    onChange={handleInput}
+                    onChange={(event) => {
+                        updatePlant(event.target.name, event.target.value)
+                    }}
                 />
             </td>
             <td className="p-2">
@@ -31,7 +31,9 @@ export default function TableRowNewPlant({categoryList, insertPlant, setInsertPl
                     type="text"
                     name="cost"
                     value={insertPlant.cost}
-                    onChange={handleInput}
+                    onChange={(event) => {
+                        updatePlant(event.target.name, event.target.value)
+                    }}
                 />
             </td>
             <td className="p-2">
@@ -40,7 +42,9 @@ export default function TableRowNewPlant({categoryList, insertPlant, setInsertPl
                     type="text"
                     name="description"
                     value={insertPlant.description}
-                    onChange={handleInput}
+                    onChange={(event) => {
+                        updatePlant(event.target.name, event.target.value)
+                    }}
                 />
             </td>
             <td className="p-2">
@@ -49,7 +53,9 @@ export default function TableRowNewPlant({categoryList, insertPlant, setInsertPl
                     type="text"
                     name="image"
                     value={insertPlant.image}
-                    onChange={handleInput}
+                    onChange={(event) => {
+                        updatePlant(event.target.name, event.target.value)
+                    }}
                 />
             </td>
             <td className="p-2 pr-4">
@@ -57,7 +63,9 @@ export default function TableRowNewPlant({categoryList, insertPlant, setInsertPl
                     name="category_id"
                     id="category-select"
                     value={insertPlant.category_id}
-                    onChange={handleInput}
+                    onChange={(event) => {
+                        updatePlant(event.target.name, event.target.value)
+                    }}
                 >
                     <option value={-1}>--- Select a category ---</option>
                     {

@@ -1,8 +1,8 @@
 import * as React from "react";
 
-export default function CategorySelector({categories, selectedCategories, setSelectedCategories}) {
+export default function CategorySelector({categories, selectedCategories, setSelectedCategories }) {
     const handleTableRowClicked = (categoryId: number) => {
-        setSelectedCategories( prevState => ({
+        setSelectedCategories( (prevState: {}) => ({
             ...prevState,
             [categoryId]: !prevState[categoryId]
         }));
@@ -32,7 +32,7 @@ export default function CategorySelector({categories, selectedCategories, setSel
                             <tbody>
                             {
                                 categories
-                                    .filter( category => category.plants.length < 1)
+                                    .filter( (category ) => category.plants.length < 1)
                                     .map( category => (
                                         <tr
                                             key={category.id}
