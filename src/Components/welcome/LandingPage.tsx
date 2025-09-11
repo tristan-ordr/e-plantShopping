@@ -1,6 +1,6 @@
-import React from "react";
-import AboutUs from "./AboutUs.jsx";
+import * as React from "react";
 import {Link} from "react-router";
+import AboutUs from "./AboutUs";
 
 const LandingContent = () => {
     return (

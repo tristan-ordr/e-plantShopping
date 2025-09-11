@@ -3,14 +3,17 @@ import {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import './ProductList.css'
 import {addItem} from "../../CartSlice.js";
-import {gql, TypedDocumentNode} from "@apollo/client";
 import {useQuery} from "@apollo/client/react";
+import {gql, TypedDocumentNode} from "@apollo/client";
+import {StateHolderInterface} from "../../types/State";
+import { GetProductListQuery } from "../../types/generated/schema";
 
 
 function ProductList() {
-    const GET_PLANTS = gql`
+    const GET_PRODUCTS: TypedDocumentNode<GetProductListQuery> = gql`
         query GetProductList {
             categories {
+                name
                 plants {
                     id
                     name
@@ -22,11 +25,11 @@ function ProductList() {
         }
     `;
 
-    const { loading, error, data } = useQuery(GET_PLANTS);
+    const { loading, error, data } = useQuery(GET_PRODUCTS);
 
     const [addedToCart, setAddedToCart] = useState({});
 
-    const cartItems = useSelector( state => state.cart.items);
+    const cartItems = useSelector( (state: StateHolderInterface) => state.cart.items);
 
     const dispatch = useDispatch();
 
@@ -69,7 +72,7 @@ function ProductList() {
             { data.categories && data.categories.map((category, index) => (
                 <div key={index}>
                     <h1>
-                        <div className="plantname_heading">{category.category}</div>
+                        <div className="plantname_heading">{category.name}</div>
                     </h1>
                     <div className="product-list">
                         {category.plants.map( (plant, plantIndex) => (

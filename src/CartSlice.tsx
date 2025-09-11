@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
-import {CartSliceInterface} from "./types/State";
+import { CartStateInterface } from "./types/State";
 
-const initialState: CartSliceInterface = {
+const initialState: CartStateInterface = {
   items: []
 }
 

@@ -1,8 +1,9 @@
+import * as React from "react";
+
 import {Outlet} from "react-router";
-import React from "react";
-import NavBar from "./NavBar.jsx";
 import {ApolloClient, HttpLink, InMemoryCache} from "@apollo/client";
 import {ApolloProvider} from "@apollo/client/react";
+import NavBar from "./NavBar";
 
 const Shopping = () => {
     const client = new ApolloClient({

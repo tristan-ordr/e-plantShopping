@@ -1,5 +1,5 @@
-import React from 'react';
-import Login from "./Login.jsx";
+import * as React from 'react';
+import Login from "./Login.js";
 import { Outlet } from "react-router";
 import { useAuth } from "../../context/auth.jsx"
 

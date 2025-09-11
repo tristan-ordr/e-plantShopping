@@ -1,9 +1,9 @@
 export interface StateHolderInterface {
-    cart: CartSliceInterface,
-    auth: {}
+    cart: CartStateInterface,
+    auth: AuthStateInterface
 }
 
-export interface CartSliceInterface {
+export interface CartStateInterface {
     items: CartItemInterface[]
 }
 
@@ -12,4 +12,9 @@ export interface CartItemInterface {
     image: string
     cost: string
     quantity: number
+}
+
+export interface AuthStateInterface {
+    token: string
+    refreshToken: string
 }

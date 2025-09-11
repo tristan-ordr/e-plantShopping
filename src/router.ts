@@ -1,12 +1,12 @@
 import {createBrowserRouter} from "react-router";
-import Root from "./Components/Root.jsx";
-import LandingPage from "./Components/welcome/LandingPage.jsx";
-import Shopping from "./Components/shopping/Shopping.jsx";
-import ProductList from "./Components/shopping/ProductList.tsx";
-import CartItem from "./Components/shopping/CartItem.tsx";
-import Admin from "./Components/admin/Admin.jsx";
-import Inventory from "./Components/admin/Inventory.jsx";
-import Locations from "./Components/admin/Locations.jsx";
+import Root from "./Components/Root.js";
+import LandingPage from "./Components/welcome/LandingPage.js";
+import Shopping from "./Components/shopping/Shopping.js";
+import Admin from "./Components/admin/Admin.js";
+import Inventory from "./Components/admin/Inventory.js";
+import Locations from "./Components/tutorial/Locations.jsx";
+import ProductList from "./Components/shopping/ProductList";
+import CartItem from "./Components/shopping/CartItem";
 
 const shoppingRouter = createBrowserRouter([
     {

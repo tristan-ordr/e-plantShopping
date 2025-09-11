@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import * as React from 'react';
+import {useState} from 'react';
 import axios from "axios";
 
 import { useAuth } from "../../context/auth.jsx"

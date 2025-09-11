@@ -1,9 +1,10 @@
-import React, {useState} from 'react';
+import * as React from 'react';
+import {useState} from "react";
 
 import { AuthContext } from "../../context/auth.jsx"
 
-import Dashboard from "./Dashboard.jsx";
-import { setJwtToken, setRefreshToken, getJwtToken, getRefreshToken } from "./jwt.jsx";
+import Dashboard from "./Dashboard.js";
+import { setJwtToken, setRefreshToken, getJwtToken, getRefreshToken } from "./jwt.js";
 
 
 export default function authorizationAdmin() {

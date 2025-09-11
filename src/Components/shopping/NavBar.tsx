@@ -1,10 +1,12 @@
+import * as React from "react";
+
 import {useSelector} from "react-redux";
 import {NavLink} from "react-router";
-import React from "react";
+import {StateHolderInterface} from "../../types/State";
 
 const NavBar = () => {
-    const cartItems = useSelector( state => state.cart.items);
-    const numberOfItems = cartItems.reduce((total, item) => total + item.quantity, 0);
+    const cartItems = useSelector( (state: StateHolderInterface) => state.cart.items);
+    const numberOfItems = cartItems.reduce( (total, item) => total + item.quantity, 0);
 
     const styleObj = {
         backgroundColor: '#4CAF50',
