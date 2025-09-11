@@ -2,7 +2,7 @@ import * as React from "react";
 import DeleteIcon from '@mui/icons-material/Delete';
 import {gql} from "@apollo/client";
 import {useMutation} from "@apollo/client/react";
-import {DashboardModalState} from "./Dashboard";
+import {DashboardModal} from "./Dashboard";
 
 const DELETE_PLANT = gql`
     mutation DeletePlant($id: ID!) {
@@ -13,7 +13,7 @@ const DELETE_PLANT = gql`
 `;
 
 export default function DeletePlantButton(props: DeleteButtonProps) {
-    const {modalState, setModalState} = props;
+    const {modal, setModal} = props;
 
     const [mutate] = useMutation(DELETE_PLANT, {
         refetchQueries: [
@@ -22,9 +22,9 @@ export default function DeletePlantButton(props: DeleteButtonProps) {
     })
 
     const onDelete = () => {
-        mutate({variables: {id: modalState.modalData.plantId}})
+        mutate({variables: {id: modal.data.plantId}})
             .then( _ => {
-                setModalState((prevState: DashboardModalState) => ({...prevState, modalType: null, modalData: {plantId: null}}))
+                setModal((prevState: DashboardModal) => ({...prevState, type: null, data: {plantId: null}}))
             })
             .catch(e => {
                 console.log(e)
@@ -42,6 +42,6 @@ export default function DeletePlantButton(props: DeleteButtonProps) {
 }
 
 interface DeleteButtonProps {
-    modalState: DashboardModalState
-    setModalState:  React.Dispatch<React.SetStateAction<DashboardModalState>>
+    modal: DashboardModal
+    setModal:  React.Dispatch<React.SetStateAction<DashboardModal>>
 }

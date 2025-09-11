@@ -6,7 +6,7 @@ import FormDialogTextInput from "../forms/FormDialogTextInput";
 import {gql, TypedDocumentNode} from "@apollo/client";
 import { useMutation } from "@apollo/client/react";
 import {InsertCategoryMutation, InsertCategoryMutationVariables} from "../../types/generated/schema";
-import {DashboardModalState} from "./Dashboard";
+import {DashboardModal} from "./Dashboard";
 
 const INSERT_CATEGORY: TypedDocumentNode<InsertCategoryMutation, InsertCategoryMutationVariables> = gql`
     mutation InsertCategory($name: String!) {
@@ -19,7 +19,7 @@ const INSERT_CATEGORY: TypedDocumentNode<InsertCategoryMutation, InsertCategoryM
 
 
 export default function NewCategoryDialog(props: NewCategoryDialogProps) {
-    const { modalState, setModalState } = props;
+    const { modal, setModal } = props;
     const [name, setName] = useState("")
 
     const [mutate, { error }] = useMutation(INSERT_CATEGORY, {
@@ -36,7 +36,7 @@ export default function NewCategoryDialog(props: NewCategoryDialogProps) {
         mutate({variables: { name }})
             .then( _ => {
                 setName("");
-                setModalState((prevState: DashboardModalState) => ({...prevState, modalType: null}));
+                setModal((prevState: DashboardModal) => ({...prevState, type: null}));
             })
             .catch(e => {
                 console.log(e);
@@ -44,11 +44,11 @@ export default function NewCategoryDialog(props: NewCategoryDialogProps) {
     }
 
     const handleClose = () => {
-        setModalState((prevState: DashboardModalState) => ({...prevState, modalType: null}));
+        setModal((prevState: DashboardModal) => ({...prevState, type: null}));
     };
     return (
         <Dialog
-            open={modalState.modalType === "new_category"}
+            open={modal.type === "new_category"}
             onClose={handleClose}>
             <div
                 className="w-full max-h-screen focus:outline-none relative p-8 bg-background dark:bg-secondaryBg rounded-xl overflow-y-auto md:w-[520px]">
@@ -86,6 +86,6 @@ export default function NewCategoryDialog(props: NewCategoryDialogProps) {
 }
 
 interface NewCategoryDialogProps {
-    modalState: DashboardModalState
-    setModalState:  React.Dispatch<React.SetStateAction<DashboardModalState>>
+    modal: DashboardModal
+    setModal:  React.Dispatch<React.SetStateAction<DashboardModal>>
 }

@@ -4,9 +4,9 @@ import PlantList from "./PlantList";
 
 
 export type DashboardModalType = "new_category" | "remove_categories" | "edit_plant" | null;
-export interface DashboardModalState {
-    modalType: DashboardModalType,
-    modalData: {
+export interface DashboardModal {
+    type: DashboardModalType,
+    data: {
         plantId: string | null
     }
 }

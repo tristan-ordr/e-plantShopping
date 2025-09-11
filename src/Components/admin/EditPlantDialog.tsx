@@ -7,7 +7,7 @@ import {GetPlantQuery, GetPlantQueryVariables} from "../../types/generated/schem
 
 import PlantForm from "./PlantForm";
 import DeletePlantButton from "./DeletePlantButton";
-import {DashboardModalState} from "./Dashboard";
+import {DashboardModal} from "./Dashboard";
 
 const GET_PLANT: TypedDocumentNode<GetPlantQuery, GetPlantQueryVariables> = gql`
     query GetPlant($plantId: ID!) {
@@ -31,20 +31,20 @@ const GET_PLANT: TypedDocumentNode<GetPlantQuery, GetPlantQueryVariables> = gql`
 
 
 export default function EditPlantDialog(props: EditPlantDialogProps) {
-    const { modalState, setModalState } = props
+    const { modal, setModal } = props
 
     const { loading, error, data } = useQuery(GET_PLANT, {
-        variables: { plantId: modalState.modalData.plantId }
+        variables: { plantId: modal.data.plantId }
     });
 
     const closeModal = () => {
-        setModalState( (prevState: DashboardModalState) => ({ ...prevState, modalType: null, modalData: { plantId: null }}))
+        setModal( (prevState: DashboardModal) => ({ ...prevState, type: null, data: { plantId: null }}))
     }
 
     return (
         <Drawer
             anchor="right"
-            open={modalState.modalType === "edit_plant"}
+            open={modal.type === "edit_plant"}
             onClose={closeModal}
         >
             <div
@@ -53,8 +53,8 @@ export default function EditPlantDialog(props: EditPlantDialogProps) {
                     <div className="flex flex-row mb-1 justify-between align-center">
                         <h1 className="text-xl font-semibold align-middle">Edit plant</h1>
                         <DeletePlantButton
-                            modalState={modalState}
-                            setModalState={setModalState}
+                            modal={modal}
+                            setModal={setModal}
                         />
                     </div>
                     {
@@ -76,6 +76,6 @@ export default function EditPlantDialog(props: EditPlantDialogProps) {
 }
 
 interface EditPlantDialogProps {
-    modalState: DashboardModalState
-    setModalState:  React.Dispatch<React.SetStateAction<DashboardModalState>>
+    modal: DashboardModal
+    setModal:  React.Dispatch<React.SetStateAction<DashboardModal>>
 }

@@ -14,7 +14,7 @@ import EditPlantDialog from "./EditPlantDialog";
 import RemoveCategoriesDialog from "./RemoveCategoriesDialog";
 import TableRowNewPlant from "./TableRowNewPlant";
 import InsertPlantButton from "./InsertPlantButton";
-import {DashboardModalState} from "./Dashboard";
+import {DashboardModal} from "./Dashboard";
 
 // GraphQL Query
 const GET_PLANTS: TypedDocumentNode<GetPlantsQuery> = gql`
@@ -42,9 +42,9 @@ export default function PlantList() {
     const { loading, error, data, refetch } = useQuery(GET_PLANTS);
 
     // State
-    const initialModalState: DashboardModalState = {
-        modalType: null,
-        modalData: {
+    const initialModalState: DashboardModal = {
+        type: null,
+        data: {
             plantId: null
         }
     }
@@ -61,10 +61,10 @@ export default function PlantList() {
 
     // Event handlers
     const handleTableRowClicked = (plantId: string) => {
-        setModal( (prevState: DashboardModalState) => ({
+        setModal( (prevState: DashboardModal) => ({
             ...prevState,
-            modalType: "edit_plant",
-            modalData: {
+            type: "edit_plant",
+            data: {
                 plantId: plantId
             }
         }));
@@ -94,14 +94,14 @@ export default function PlantList() {
                     <CachedIcon/>
                 </button>
                 <button
-                    onClick={()=> setModal(prevState => ({...prevState, modalType: "new_category"}))}
+                    onClick={()=> setModal(prevState => ({...prevState, type: "new_category"}))}
                     className="group/button flex items-center justify-center border transform transition-transform duration-50 active:scale-95 focus:outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-50 bg-transparent border-transparent dark:text-pink-700 hover:bg-pink-100 hover:border-pink-100 disabled:bg-transparent disabled:border-transparent focus-visible:ring-pink-600 focus-visible:bg-pink-100 h-[34px] py-1.5 px-3 rounded-md text-sm leading-5 space-x-2 text-pink-500"
                     title="Add category">
                     <NewLabelOutlinedIcon className="mb-[2px] mr-[2px]"/>
                     Add category
                 </button>
                 { data && data.categories.length > 1 && <button
-                    onClick={()=> setModal(prevState => ({...prevState, modalType: "remove_categories"}))}
+                    onClick={()=> setModal(prevState => ({...prevState, type: "remove_categories"}))}
                     className="group/button flex items-center justify-center border transform transition-transform duration-50 active:scale-95 focus:outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-50 bg-transparent border-transparent dark:text-pink-700 hover:bg-pink-100 hover:border-pink-100 disabled:bg-transparent disabled:border-transparent focus-visible:ring-pink-600 focus-visible:bg-pink-100 h-[34px] py-1.5 px-3 rounded-md text-sm leading-5 space-x-2 text-pink-500"
                     title="Delete categories">
                         <DeleteForeverOutlinedIcon className="mb-[2px] mr-[2px]"/>
@@ -184,18 +184,18 @@ export default function PlantList() {
                 }
 
             </div>
-            { modal.modalType === "new_category" && <NewCategoryDialog
-                modalState={modal}
-                setModalState={setModal}
+            { modal.type === "new_category" && <NewCategoryDialog
+                modal={modal}
+                setModal={setModal}
             /> }
-            { data && modal.modalType === "remove_categories" && <RemoveCategoriesDialog
+            { data && modal.type === "remove_categories" && <RemoveCategoriesDialog
                 categories={data.categories}
-                modalState={modal}
-                setModalState={setModal}
+                modal={modal}
+                setModal={setModal}
             /> }
-            {  modal.modalType === "edit_plant" && <EditPlantDialog
-                modalState={modal}
-                setModalState={setModal}
+            {  modal.type === "edit_plant" && <EditPlantDialog
+                modal={modal}
+                setModal={setModal}
             /> }
         </div>
     </>)
