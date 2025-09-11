@@ -2,7 +2,7 @@ import * as React from "react";
 import DeleteIcon from '@mui/icons-material/Delete';
 import {gql} from "@apollo/client";
 import {useMutation} from "@apollo/client/react";
-import {DashboardModal} from "./Dashboard";
+import {InventoryModal} from "./Inventory";
 
 const DELETE_PLANT = gql`
     mutation DeletePlant($id: ID!) {
@@ -24,7 +24,7 @@ export default function DeletePlantButton(props: DeleteButtonProps) {
     const onDelete = () => {
         mutate({variables: {id: modal.data.plantId}})
             .then( _ => {
-                setModal((prevState: DashboardModal) => ({...prevState, type: null, data: {plantId: null}}))
+                setModal((prevState: InventoryModal) => ({...prevState, type: null, data: {plantId: null}}))
             })
             .catch(e => {
                 console.log(e)
@@ -42,6 +42,6 @@ export default function DeletePlantButton(props: DeleteButtonProps) {
 }
 
 interface DeleteButtonProps {
-    modal: DashboardModal
-    setModal:  React.Dispatch<React.SetStateAction<DashboardModal>>
+    modal: InventoryModal
+    setModal:  React.Dispatch<React.SetStateAction<InventoryModal>>
 }

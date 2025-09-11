@@ -14,7 +14,6 @@ import EditPlantDialog from "./EditPlantDialog";
 import RemoveCategoriesDialog from "./RemoveCategoriesDialog";
 import TableRowNewPlant from "./TableRowNewPlant";
 import InsertPlantButton from "./InsertPlantButton";
-import {DashboardModal} from "./Dashboard";
 
 // GraphQL Query
 const GET_PLANTS: TypedDocumentNode<GetPlantsQuery> = gql`
@@ -37,12 +36,21 @@ const GET_PLANTS: TypedDocumentNode<GetPlantsQuery> = gql`
     }
 `;
 
-export default function PlantList() {
+export type InventoryModalType = "new_category" | "remove_categories" | "edit_plant" | null;
+export interface InventoryModal {
+    type: InventoryModalType,
+    data: {
+        plantId: string | null
+    }
+}
+
+
+export default function Inventory() {
     // Use Query
     const { loading, error, data, refetch } = useQuery(GET_PLANTS);
 
     // State
-    const initialModalState: DashboardModal = {
+    const initialModalState: InventoryModal = {
         type: null,
         data: {
             plantId: null
@@ -61,7 +69,7 @@ export default function PlantList() {
 
     // Event handlers
     const handleTableRowClicked = (plantId: string) => {
-        setModal( (prevState: DashboardModal) => ({
+        setModal( (prevState: InventoryModal) => ({
             ...prevState,
             type: "edit_plant",
             data: {

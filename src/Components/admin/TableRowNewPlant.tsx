@@ -1,5 +1,5 @@
 import * as React from "react";
-import {GetPlantsQueryCategories, PlantInputInterface} from "./PlantList";
+import {GetPlantsQueryCategories, PlantInputInterface} from "./Inventory";
 
 export default function TableRowNewPlant(props: TableRowNewPlantProps) {
     const {categoryList, insertPlant, setInsertPlant} = props;

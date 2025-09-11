@@ -6,8 +6,7 @@ import { gql } from "@apollo/client";
 import {useMutation} from "@apollo/client/react";
 import {useState} from "react";
 import CategorySelector from "./CategorySelector";
-import { GetPlantsQueryCategories } from "./PlantList";
-import {DashboardModal} from "./Dashboard";
+import {InventoryModal, GetPlantsQueryCategories} from "./Inventory";
 
 // GraphQL Queries
 const DELETE_CATEGORIES = gql`
@@ -38,7 +37,7 @@ export default function RemoveCategoriesDialog(props: RemoveCategoriesDialogProp
         mutate({ variables: { ids }})
             .then( _ => {
                 setSelectedCategories({});
-                setModal( (prevState: DashboardModal) => ({...prevState, type: null}));
+                setModal( (prevState: InventoryModal) => ({...prevState, type: null}));
             })
             .catch(e => {
                 console.log(e)
@@ -46,7 +45,7 @@ export default function RemoveCategoriesDialog(props: RemoveCategoriesDialogProp
     }
 
     const handleClose = () => {
-        setModal( (prevState: DashboardModal)=> ({...prevState, type: null}));
+        setModal( (prevState: InventoryModal)=> ({...prevState, type: null}));
     };
 
     return (
@@ -87,6 +86,6 @@ export default function RemoveCategoriesDialog(props: RemoveCategoriesDialogProp
 
 interface RemoveCategoriesDialogProps {
     categories: GetPlantsQueryCategories[]
-    modal: DashboardModal
-    setModal:  React.Dispatch<React.SetStateAction<DashboardModal>>
+    modal: InventoryModal
+    setModal:  React.Dispatch<React.SetStateAction<InventoryModal>>
 }

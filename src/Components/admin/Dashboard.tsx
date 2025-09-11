@@ -1,15 +1,7 @@
 import * as React  from 'react';
 import LogoutButton from "./LogoutButton";
-import PlantList from "./PlantList";
+import Inventory from "./Inventory";
 
-
-export type DashboardModalType = "new_category" | "remove_categories" | "edit_plant" | null;
-export interface DashboardModal {
-    type: DashboardModalType,
-    data: {
-        plantId: string | null
-    }
-}
 
 export default function Dashboard() {
     return (
@@ -17,7 +9,7 @@ export default function Dashboard() {
             <div className="flex flex-col space-y-1">
                 <div className="flex flex-col flex-grow">
                     <LogoutButton />
-                    <PlantList/>
+                    <Inventory/>
                 </div>
             </div>
         </div>

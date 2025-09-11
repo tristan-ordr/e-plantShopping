@@ -1,5 +1,5 @@
 import * as React from "react";
-import {GetPlantsCategoriesInterface, GetPlantsQueryCategories} from "./PlantList";
+import {GetPlantsCategoriesInterface, GetPlantsQueryCategories} from "./Inventory";
 
 export default function CategorySelector(props: CategorySelectorProps) {
     const {categories, selectedCategories, setSelectedCategories } = props;

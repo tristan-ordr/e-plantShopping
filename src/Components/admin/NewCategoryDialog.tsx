@@ -6,7 +6,7 @@ import FormDialogTextInput from "../forms/FormDialogTextInput";
 import {gql, TypedDocumentNode} from "@apollo/client";
 import { useMutation } from "@apollo/client/react";
 import {InsertCategoryMutation, InsertCategoryMutationVariables} from "../../types/generated/schema";
-import {DashboardModal} from "./Dashboard";
+import {InventoryModal} from "./Inventory";
 
 const INSERT_CATEGORY: TypedDocumentNode<InsertCategoryMutation, InsertCategoryMutationVariables> = gql`
     mutation InsertCategory($name: String!) {
@@ -36,7 +36,7 @@ export default function NewCategoryDialog(props: NewCategoryDialogProps) {
         mutate({variables: { name }})
             .then( _ => {
                 setName("");
-                setModal((prevState: DashboardModal) => ({...prevState, type: null}));
+                setModal((prevState: InventoryModal) => ({...prevState, type: null}));
             })
             .catch(e => {
                 console.log(e);
@@ -44,7 +44,7 @@ export default function NewCategoryDialog(props: NewCategoryDialogProps) {
     }
 
     const handleClose = () => {
-        setModal((prevState: DashboardModal) => ({...prevState, type: null}));
+        setModal((prevState: InventoryModal) => ({...prevState, type: null}));
     };
     return (
         <Dialog
@@ -86,6 +86,6 @@ export default function NewCategoryDialog(props: NewCategoryDialogProps) {
 }
 
 interface NewCategoryDialogProps {
-    modal: DashboardModal
-    setModal:  React.Dispatch<React.SetStateAction<DashboardModal>>
+    modal: InventoryModal
+    setModal:  React.Dispatch<React.SetStateAction<InventoryModal>>
 }

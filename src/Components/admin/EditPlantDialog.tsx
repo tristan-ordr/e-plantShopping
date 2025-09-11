@@ -7,7 +7,7 @@ import {GetPlantQuery, GetPlantQueryVariables} from "../../types/generated/schem
 
 import PlantForm from "./PlantForm";
 import DeletePlantButton from "./DeletePlantButton";
-import {DashboardModal} from "./Dashboard";
+import {InventoryModal} from "./Inventory";
 
 const GET_PLANT: TypedDocumentNode<GetPlantQuery, GetPlantQueryVariables> = gql`
     query GetPlant($plantId: ID!) {
@@ -38,7 +38,7 @@ export default function EditPlantDialog(props: EditPlantDialogProps) {
     });
 
     const closeModal = () => {
-        setModal( (prevState: DashboardModal) => ({ ...prevState, type: null, data: { plantId: null }}))
+        setModal( (prevState: InventoryModal) => ({ ...prevState, type: null, data: { plantId: null }}))
     }
 
     return (
@@ -76,6 +76,6 @@ export default function EditPlantDialog(props: EditPlantDialogProps) {
 }
 
 interface EditPlantDialogProps {
-    modal: DashboardModal
-    setModal:  React.Dispatch<React.SetStateAction<DashboardModal>>
+    modal: InventoryModal
+    setModal:  React.Dispatch<React.SetStateAction<InventoryModal>>
 }
