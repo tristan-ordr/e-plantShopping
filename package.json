@@ -6,7 +6,7 @@
   "scripts": {
     "codegen": "graphql-codegen --config codegen.ts",
     "dev": "vite",
-    "predeploy": "vite build",
+    "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
