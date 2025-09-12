@@ -4,9 +4,12 @@ import {StateHolderInterface} from "../../types/State";
 import axios from "axios";
 import {removeTokens} from "../../AuthSlice";
 import LogoutIcon from "@mui/icons-material/Logout";
+import {useNavigate} from "react-router";
 
 export default function LogoutButton() {
     const auth = useSelector( (state: StateHolderInterface )=> state.auth)
+
+    const navigate = useNavigate();
 
     const dispatch = useDispatch();
 
@@ -20,6 +23,7 @@ export default function LogoutButton() {
             }}).then(res => {
             if (res.status === 204) {
                 dispatch(removeTokens({}));
+                navigate('/e-plantShopping');
             }
         }).catch(err => {
             console.log(err);

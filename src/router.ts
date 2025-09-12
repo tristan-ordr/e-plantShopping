@@ -7,6 +7,9 @@ import Locations from "./Components/tutorial/Locations.jsx";
 import ProductList from "./Components/shopping/ProductList";
 import CartItem from "./Components/shopping/CartItem";
 import Admin from "./Components/admin/Admin";
+import Inventory, {GET_PLANTS} from "./Components/admin/Inventory.jsx";
+import {useQuery} from "@apollo/client/react";
+import Login from "./Components/admin/Login.jsx";
 
 const shoppingRouter = createBrowserRouter([
     {
@@ -30,10 +33,15 @@ const shoppingRouter = createBrowserRouter([
                 ]
             },
             {
-                path: 'admin',
                 Component: Admin,
                 children: [
-                    { index: true, Component: Dashboard },
+                    {
+                        path: 'admin',
+                        Component: Dashboard,
+                        children: [
+                            { index: true, Component: Inventory },
+                        ]
+                    },
                     { path: 'locations', Component: Locations },
                 ]
             }

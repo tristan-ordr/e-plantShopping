@@ -1,6 +1,6 @@
 import * as React  from 'react';
 import LogoutButton from "./LogoutButton";
-import Inventory from "./Inventory";
+import { Outlet } from 'react-router';
 
 
 export default function Dashboard() {
@@ -9,7 +9,7 @@ export default function Dashboard() {
             <div className="flex flex-col space-y-1">
                 <div className="flex flex-col flex-grow">
                     <LogoutButton />
-                    <Inventory/>
+                    <Outlet/>
                 </div>
             </div>
         </div>

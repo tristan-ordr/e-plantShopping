@@ -14,9 +14,10 @@ import EditPlantDialog from "./EditPlantDialog";
 import RemoveCategoriesDialog from "./RemoveCategoriesDialog";
 import TableRowNewPlant from "./TableRowNewPlant";
 import InsertPlantButton from "./InsertPlantButton";
+import {useLoaderData} from "react-router";
 
 // GraphQL Query
-const GET_PLANTS: TypedDocumentNode<GetPlantsQuery> = gql`
+export const GET_PLANTS: TypedDocumentNode<GetPlantsQuery> = gql`
     query GetPlants {
         plants {
             id
