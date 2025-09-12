@@ -1,4 +1,3 @@
-import * as React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import './CartItem.css';
 import {Link} from "react-router";
@@ -18,11 +17,11 @@ const CartItem = () => {
       );
   };
 
-  const handleCheckout = (e) => {
+  const handleCheckout = () => {
       alert("Checkout has not yet been implemented");
   }
 
-  const handleIncrement = (item) => {
+  const handleIncrement = (item: any) => {
       const newItem = {
           ...item,
           quantity: item.quantity + 1
@@ -30,7 +29,7 @@ const CartItem = () => {
       dispatch(updateQuantity(newItem));
   };
 
-  const handleDecrement = (item) => {
+  const handleDecrement = (item: any) => {
       const newQuantity = item.quantity - 1;
       if (newQuantity <= 0) {
           dispatch(removeItem(item.name));
@@ -43,12 +42,12 @@ const CartItem = () => {
       }
   };
 
-  const handleRemove = (item) => {
+  const handleRemove = (item: any) => {
       dispatch(removeItem(item.name));
   };
 
   // Calculate total cost based on quantity for an item
-  const calculateTotalCost = (item) => {
+  const calculateTotalCost = (item: any) => {
       return item.quantity * Number(item.cost.replace(/[^0-9.-]+/g, ""));
   };
 
@@ -77,7 +76,7 @@ const CartItem = () => {
       <div className="continue_shopping_btn">
         <Link className="get-started-button" to="/e-plantShopping/shopping">Continue Shopping</Link>
         <br />
-        <button className="get-started-button1" onClick={(e) => handleCheckout(e)}>Checkout</button>
+        <button className="get-started-button1" onClick={handleCheckout}>Checkout</button>
       </div>
     </div>
   );

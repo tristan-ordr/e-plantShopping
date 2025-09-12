@@ -33,7 +33,7 @@ function ProductList() {
     const dispatch = useDispatch();
 
 
-    const handleAddToCart = (product) => {
+    const handleAddToCart = (product: any) => {
         if (isAdded(product)) { return; }
 
         // Dispatch this information to the addItem inside the function component CartSlice:
@@ -51,7 +51,9 @@ function ProductList() {
     useEffect( () => {
         const itemNames = cartItems.map((item) => item.name);
         const result = {}
+        // @ts-ignore
         Object.entries(addedToCart).forEach(([key, value]) => {
+            // @ts-ignore
             result[key] = itemNames.includes(key);
         });
 
@@ -59,7 +61,8 @@ function ProductList() {
     }, [cartItems]);
 
     // Helper function to check if a given item is in the cart:
-    const isAdded = (product) => {
+    const isAdded = (product: any) => {
+        // @ts-ignore
         return addedToCart[product.name]
     }
 
@@ -68,18 +71,18 @@ function ProductList() {
 
     return (
         <div className="product-grid">
-            { data.categories && data.categories.map((category, index) => (
+            { data && data.categories && data.categories.map((category, index) => (
                 <div key={index}>
                     <h1>
                         <div className="plantname_heading">{category.name}</div>
                     </h1>
                     <div className="product-list">
-                        {category.plants.map( (plant, plantIndex) => (
+                        {category && category.plants && category.plants.map( (plant, plantIndex) => (
                             <div className="product-card" key={plantIndex}>
                                 <div className="product-title">{plant.name}</div>
                                 <img
                                     className="product-image"
-                                    src={plant.image}
+                                    src={plant.image ? plant.image : undefined}
                                     alt={plant.name}
                                 />
                                 <div className="product-price">{plant.cost}</div>
