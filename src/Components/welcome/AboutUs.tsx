@@ -1,5 +1,3 @@
-import * as React from 'react';
-
 function AboutUs() {
   return (
     <div className="max-w-[900px] text-justify pr-[20px] pl-[20px] text-2xl">

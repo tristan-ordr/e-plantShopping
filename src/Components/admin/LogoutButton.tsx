@@ -1,4 +1,3 @@
-import * as React from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {StateHolderInterface} from "../../types/State";
 import axios from "axios";
@@ -22,7 +21,7 @@ export default function LogoutButton() {
                 token: auth.refresh
             }}).then(res => {
             if (res.status === 204) {
-                dispatch(removeTokens({}));
+                dispatch(removeTokens());
                 navigate('/e-plantShopping');
             }
         }).catch(err => {

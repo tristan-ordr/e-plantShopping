@@ -1,7 +1,9 @@
 import * as React from "react";
+
 import {gql, TypedDocumentNode} from "@apollo/client";
 import {useMutation} from "@apollo/client/react";
 import {InsertPlantMutation} from "../../types/generated/schema";
+import {PlantInputInterface} from "./Inventory.tsx";
 
 const INSERT_PLANT: TypedDocumentNode<InsertPlantMutation> = gql`
     mutation InsertPlant($plant: PlantInput!) {
@@ -11,7 +13,8 @@ const INSERT_PLANT: TypedDocumentNode<InsertPlantMutation> = gql`
     }
 `;
 
-export default function InsertPlantButton({plant, setInsertPlant, setShowNewPlant}) {
+export default function InsertPlantButton(props: InsertPlantButtonProps) {
+    const { plant, setInsertPlant, setShowNewPlant } = props
     const [ mutate ] = useMutation(INSERT_PLANT, {
        refetchQueries: [
            "GetPlants"
@@ -42,4 +45,10 @@ export default function InsertPlantButton({plant, setInsertPlant, setShowNewPlan
             <span className="inline-block">Insert</span>
         </button>
     )
+}
+
+interface InsertPlantButtonProps {
+    plant: PlantInputInterface
+    setInsertPlant: React.Dispatch<React.SetStateAction<PlantInputInterface>>
+    setShowNewPlant: React.Dispatch<React.SetStateAction<boolean>>
 }

@@ -1,5 +1,3 @@
-import * as React from "react";
-
 import {Outlet} from "react-router";
 import {ApolloClient, HttpLink, InMemoryCache} from "@apollo/client";
 import {ApolloProvider} from "@apollo/client/react";

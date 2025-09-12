@@ -1,4 +1,3 @@
-import * as React  from 'react';
 import LogoutButton from "./LogoutButton";
 import { Outlet } from 'react-router';
 

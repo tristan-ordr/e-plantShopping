@@ -26,6 +26,7 @@ export const GET_PLANTS: TypedDocumentNode<GetPlantsQuery> = gql`
             image
             category {
                 name
+                id
             }
         }
         categories {
@@ -48,6 +49,7 @@ export interface InventoryModal {
 export default function Inventory() {
     // Use Query
     const { loading, error, data, refetch } = useQuery(GET_PLANTS);
+    const categoriesData = data && data.categories;
 
     // State
     const initialModalState: InventoryModal = {
@@ -81,10 +83,10 @@ export default function Inventory() {
     // useEffect for interacting with the DOM:
     useEffect( () => {
         if (showInsertPlant) {
-            const divElement = document.getElementById('plant-data-grid');
+            const divElement = document.getElementById('plant-data-grid')!;
             divElement.scrollTop = divElement.scrollHeight + 40;
 
-            const nameInput = document.getElementById('insert-plant-name-input')
+            const nameInput = document.getElementById('insert-plant-name-input')!
             nameInput.focus();
         }
     }, [showInsertPlant])
@@ -108,7 +110,7 @@ export default function Inventory() {
                     <NewLabelOutlinedIcon className="mb-[2px] mr-[2px]"/>
                     Add category
                 </button>
-                { data && data.categories.length > 1 && <button
+                { categoriesData && categoriesData.length > 1 && <button
                     onClick={()=> setModal(prevState => ({...prevState, type: "remove_categories"}))}
                     className="group/button flex items-center justify-center border transform transition-transform duration-50 active:scale-95 focus:outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-50 bg-transparent border-transparent dark:text-pink-700 hover:bg-pink-100 hover:border-pink-100 disabled:bg-transparent disabled:border-transparent focus-visible:ring-pink-600 focus-visible:bg-pink-100 h-[34px] py-1.5 px-3 rounded-md text-sm leading-5 space-x-2 text-pink-500"
                     title="Delete categories">
@@ -213,4 +215,5 @@ export default function Inventory() {
 export interface PlantInputInterface {name: string, cost: string, description: string, image: string, category_id: string}
 
 // Copied from the generated schema.ts file for convenience:
+export type GetPlantsQueryPlants = { __typename: 'Plant', id: string, name: string, cost: string | null, description: string | null, image: string | null, category: { __typename: 'Category', name: string, id: string } }
 export type GetPlantsQueryCategories = { __typename: 'Category', id: string, name: string, plants: Array<{ __typename: 'Plant', id: string }> | null }

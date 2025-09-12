@@ -20,7 +20,7 @@ export const AuthSlice = createSlice({
             state.token = token;
             state.refresh = refresh;
         },
-        removeTokens: (state, action) => {
+        removeTokens: (state) => {
             _jwt.removeJwtToken();
             _jwt.removeRefreshToken();
 

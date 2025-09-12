@@ -4,6 +4,8 @@ import FormDialogTextInput from "../forms/FormDialogTextInput";
 import FormDialogSelect from "../forms/FormDialogSelect";
 import {gql} from "@apollo/client";
 import { useMutation } from '@apollo/client/react';
+import {GetPlantsQueryPlants} from './Inventory.tsx';
+import {CategoryArray} from "./EditPlantDialog.tsx";
 
 const UPDATE_PLANT = gql`
     mutation UpdatePlant($id: ID!, $edits: EditPlantInput!) {
@@ -15,19 +17,20 @@ const UPDATE_PLANT = gql`
 `;
 
 
-export default function PlantForm({data, closeModal}) {
+export default function PlantForm(props: PlantFormProps) {
+    const {plant, categories, closeModal} = props;
     const [mutate] = useMutation(UPDATE_PLANT);
 
     const [localData, setLocalData] = useState({
-        name: data.plant.name,
-        cost: data.plant.cost,
-        description: data.plant.description,
-        image: data.plant.image,
-        category_id: data.plant.category.id
+        name: plant.name,
+        cost: plant.cost,
+        description: plant.description,
+        image: plant.image,
+        category_id: plant.category.id
     });
 
     const handleSubmit = () => {
-        mutate({variables: {id: data.plant.id, edits: localData}})
+        mutate({variables: {id: plant.id, edits: localData}})
             .then(() => {
                 closeModal();
             })
@@ -37,6 +40,14 @@ export default function PlantForm({data, closeModal}) {
     }
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const {name, value} = event.target;
+        setLocalData(prevState => ({
+            ...prevState,
+            [name] : value
+        }))
+    }
+
+    const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const {name, value} = event.target;
         setLocalData(prevState => ({
             ...prevState,
@@ -82,9 +93,9 @@ export default function PlantForm({data, closeModal}) {
                 formLabel="category"
                 inputId="category"
                 inputName="category_id"
-                options={data.categories}
+                options={categories}
                 selected={localData["category_id"]}
-                setValue={handleChange}
+                setValue={handleSelect}
             />
 
             <div className="flex space-x-4 justify-end">
@@ -103,4 +114,12 @@ export default function PlantForm({data, closeModal}) {
             </div>
         </form>
     )
+}
+
+
+
+interface PlantFormProps {
+    plant: GetPlantsQueryPlants
+    categories: CategoryArray
+    closeModal: () => void;
 }

@@ -3,11 +3,11 @@ import * as React from "react";
 import {Drawer} from "@mui/material";
 import {gql, TypedDocumentNode} from "@apollo/client";
 import {useQuery} from "@apollo/client/react";
-import {GetPlantQuery, GetPlantQueryVariables} from "../../types/generated/schema";
+import {GetPlantQuery, GetPlantQueryVariables } from "../../types/generated/schema";
 
 import PlantForm from "./PlantForm";
 import DeletePlantButton from "./DeletePlantButton";
-import {InventoryModal} from "./Inventory";
+import {InventoryModal} from "./Inventory.tsx";
 
 const GET_PLANT: TypedDocumentNode<GetPlantQuery, GetPlantQueryVariables> = gql`
     query GetPlant($plantId: ID!) {
@@ -34,7 +34,7 @@ export default function EditPlantDialog(props: EditPlantDialogProps) {
     const { modal, setModal } = props
 
     const { loading, error, data } = useQuery(GET_PLANT, {
-        variables: { plantId: modal.data.plantId }
+        variables: { plantId: modal.data.plantId! }
     });
 
     const closeModal = () => {
@@ -63,9 +63,10 @@ export default function EditPlantDialog(props: EditPlantDialogProps) {
                     {
                         error && <p>Error : {error.message}</p>
                     }
-                    { data && (<>
+                    { data && data.plant && (<>
                         <PlantForm
-                            data={data}
+                            plant={data.plant}
+                            categories={data.categories}
                             closeModal={closeModal}
                         />
                     </>)}
@@ -79,3 +80,6 @@ interface EditPlantDialogProps {
     modal: InventoryModal
     setModal:  React.Dispatch<React.SetStateAction<InventoryModal>>
 }
+
+export type GetPlantQueryCategory = {__typename: "Category", id: string, name: string} | null
+export type CategoryArray = GetPlantQueryCategory[] | null

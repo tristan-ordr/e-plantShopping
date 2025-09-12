@@ -85,7 +85,7 @@ export default function RemoveCategoriesDialog(props: RemoveCategoriesDialogProp
 }
 
 interface RemoveCategoriesDialogProps {
-    categories: GetPlantsQueryCategories[]
+    categories: GetPlantsQueryCategories[] | null
     modal: InventoryModal
     setModal:  React.Dispatch<React.SetStateAction<InventoryModal>>
 }

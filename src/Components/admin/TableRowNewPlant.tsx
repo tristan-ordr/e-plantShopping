@@ -72,7 +72,7 @@ export default function TableRowNewPlant(props: TableRowNewPlantProps) {
                 >
                     <option value={-1}>--- Select a category ---</option>
                     {
-                        categoryList.map (category => (
+                        categoryList && categoryList.map (category => (
                             <option
                                 key={category.id}
                                 value={category.id}
@@ -88,7 +88,7 @@ export default function TableRowNewPlant(props: TableRowNewPlantProps) {
 }
 
 interface TableRowNewPlantProps {
-    categoryList: Array<GetPlantsQueryCategories>
+    categoryList: Array<GetPlantsQueryCategories> | null
     insertPlant: PlantInputInterface
     setInsertPlant: React.Dispatch<React.SetStateAction<PlantInputInterface>>
 }

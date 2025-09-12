@@ -1,6 +1,8 @@
-import * as React from 'react';
+import * as React from "react";
+import {ErrorLike} from "@apollo/client";
 
-export default function FormDialogTextInput({formLabel, inputId, inputName, inputValue, setValue, inputError}) {
+export default function FormDialogTextInput(props: FormDialogTextInputProps) {
+    const {formLabel, inputId, inputName, inputValue, setValue, inputError} = props
     return(
         <div className="flex flex-col w-full">
             <div className="flex justify-between items-center">
@@ -14,7 +16,7 @@ export default function FormDialogTextInput({formLabel, inputId, inputName, inpu
                     data-1p-ignore
                     id={inputId}
                     name={inputName}
-                    value={inputValue}
+                    value={inputValue ? inputValue : undefined}
                     onChange={setValue}
                 />
             </div>
@@ -23,4 +25,13 @@ export default function FormDialogTextInput({formLabel, inputId, inputName, inpu
             </div>}
         </div>
     )
+}
+
+interface FormDialogTextInputProps {
+    formLabel: string
+    inputId: string
+    inputName: string
+    inputValue: string | null
+    setValue: (event: React.ChangeEvent<HTMLInputElement>) => void
+    inputError: ErrorLike | undefined | null
 }
