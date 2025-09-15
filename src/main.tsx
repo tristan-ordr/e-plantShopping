@@ -11,7 +11,6 @@ Amplify.configure(outputs);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
-            <h1>Hello, world!</h1>
-            <RouterProvider router={shoppingRouter}/>
+        <RouterProvider router={shoppingRouter}/>
     </React.StrictMode>,
 )
