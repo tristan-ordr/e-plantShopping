@@ -2,36 +2,58 @@ import {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import './ProductList.css'
 import {addItem} from "../../CartSlice.js";
-import {useQuery} from "@apollo/client/react";
-import {gql, TypedDocumentNode} from "@apollo/client";
 import {StateHolderInterface} from "../../types/State";
-import { GetProductListQuery } from "../../types/generated/schema";
+import {amplifyClient} from "../../main.tsx";
 
 
 function ProductList() {
-    const GET_PRODUCTS: TypedDocumentNode<GetProductListQuery> = gql`
-        query GetProductList {
-            categories {
-                name
-                plants {
-                    id
-                    name
-                    cost
-                    description
-                    image
-                }
+    /**
+     * Using a separate graphQL server:
+     */
+    // const GET_PRODUCTS: TypedDocumentNode<GetProductListQuery> = gql`
+    //     query GetProductList {
+    //         categories {
+    //             name
+    //             plants {
+    //                 id
+    //                 name
+    //                 cost
+    //                 description
+    //                 image
+    //             }
+    //         }
+    //     }
+    // `;
+    //
+    // const { loading, error, data } = useQuery(GET_PRODUCTS);
+
+    /**
+     * Using amplify:
+     */
+    const initialState: Product[] = [];
+    const [plantList, setPlantList] = useState(initialState);
+    console.log(plantList);
+
+    useEffect (() => {
+        async function getPlants() {
+            try {
+                const { data: plantList } = await amplifyClient.models.Plant.list();
+                return plantList
+            } catch {
+                return []
             }
+
         }
-    `;
+        getPlants().then(r => setPlantList(r));
+    }, [])
 
-    const { loading, error, data } = useQuery(GET_PRODUCTS);
 
+    // Required by both amplify and graphQL:
     const [addedToCart, setAddedToCart] = useState({});
 
     const cartItems = useSelector( (state: StateHolderInterface) => state.cart.items);
 
     const dispatch = useDispatch();
-
 
     const handleAddToCart = (product: any) => {
         if (isAdded(product)) { return; }
@@ -66,41 +88,57 @@ function ProductList() {
         return addedToCart[product.name]
     }
 
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>Error : {error.message}</p>;
+    // GRAPHQL:
+    // if (loading) return <p>Loading...</p>;
+    // if (error) return <p>Error : {error.message}</p>;
+
+    //
+    // For graphQL, insert the following directly below the "product-grid" element. Close opened elements, tags,
+    // functions after the product list rendering logic.
+    //
+    // { data && data.categories && data.categories.map((category, index) => (
+    // <div key={index}>
+    //     <h1>
+    //         <div className="plantname_heading">{category.name}</div>
+    //     </h1>
+
 
     return (
         <div className="product-grid">
-            { data && data.categories && data.categories.map((category, index) => (
-                <div key={index}>
-                    <h1>
-                        <div className="plantname_heading">{category.name}</div>
-                    </h1>
-                    <div className="product-list">
-                        {category && category.plants && category.plants.map( (plant, plantIndex) => (
-                            <div className="product-card" key={plantIndex}>
-                                <div className="product-title">{plant.name}</div>
-                                <img
-                                    className="product-image"
-                                    src={plant.image ? plant.image : undefined}
-                                    alt={plant.name}
-                                />
-                                <div className="product-price">{plant.cost}</div>
-                                <div className="product-description">{plant.description}</div>
-                                <button
-                                    className={"product-button" + (isAdded(plant) ? " added-to-cart" : "")}
-                                    onClick={() => handleAddToCart(plant)}
-                                >
-                                    {isAdded(plant) ? "Added to Cart" : "Add to Cart"}
-                                </button>
 
-                            </div>
-                        ))}
+            <div className="product-list">
+                { plantList.map( (plant, plantIndex) => (
+                    <div className="product-card" key={plantIndex}>
+                        <div className="product-title">{plant.name}</div>
+                        <img
+                            className="product-image"
+                            src={plant.image ? plant.image : undefined}
+                            alt={plant.name ?? ""}
+                        />
+                        <div className="product-price">{plant.cost}</div>
+                        <div className="product-description">{plant.description}</div>
+                        <button
+                            className={"product-button" + (isAdded(plant) ? " added-to-cart" : "")}
+                            onClick={() => handleAddToCart(plant)}
+                        >
+                            {isAdded(plant) ? "Added to Cart" : "Add to Cart"}
+                        </button>
+
                     </div>
-                </div>
-            ))}
+                ))}
+            </div>
         </div>
     );
+}
+
+interface Product {
+    name: string | null;
+    image: string | null;
+    description: string | null;
+    cost:  string | null;
+    readonly id: string;
+    readonly createdAt: string;
+    readonly updatedAt: string;
 }
 
 export default ProductList;
