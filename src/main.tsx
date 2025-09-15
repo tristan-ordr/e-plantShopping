@@ -3,14 +3,16 @@ import * as ReactDOM from 'react-dom/client'
 import {RouterProvider} from "react-router";
 
 import { Amplify } from "aws-amplify";
+
+// @ts-ignore
 import outputs from "../amplify_outputs.json";
 
-import shoppingRouter from "./router";
+import router from "./router";
 
 Amplify.configure(outputs);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
-        <RouterProvider router={shoppingRouter}/>
+        <RouterProvider router={router}/>
     </React.StrictMode>,
 )

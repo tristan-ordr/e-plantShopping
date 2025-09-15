@@ -8,12 +8,32 @@ import CartItem from "./Components/shopping/CartItem";
 import Admin from "./Components/admin/Admin";
 import Inventory from "./Components/admin/Inventory.jsx";
 
-const shoppingRouter = createBrowserRouter([
+const router = createBrowserRouter([
     {
         path: '/',
         Component: Root,
         children: [
             { index: true, Component: LandingPage },
+            {
+                path: 'shopping',
+                Component: Shopping,
+                children: [
+                    { index: true, Component: ProductList },
+                    { path: 'cart', Component: CartItem }
+                ]
+            },
+            {
+                Component: Admin,
+                children: [
+                    {
+                        path: 'admin',
+                        Component: Dashboard,
+                        children: [
+                            { index: true, Component: Inventory },
+                        ]
+                    }
+                ]
+            }
         ]
     },
     {
@@ -45,4 +65,4 @@ const shoppingRouter = createBrowserRouter([
     },
 ]);
 
-export default shoppingRouter;
+export default router;
